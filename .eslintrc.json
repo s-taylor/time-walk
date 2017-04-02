@@ -1,0 +1,20 @@
+{
+  "env": {
+    "es6":   true,
+    "node":  true,
+    "mocha": true
+  },
+  "extends": "airbnb",
+  "installedESLint": true,
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "arrow-body-style": "off",
+    "comma-dangle": ["error", "never"],
+    "no-console": "off",
+    "no-param-reassign": "off",
+    "spaced-comment": "off",
+    "space-before-function-paren": ["error", "never"]
+  }
+}
