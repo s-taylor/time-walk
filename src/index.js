@@ -1,31 +1,40 @@
 const _ = require('lodash');
 const moment = require('moment-timezone');
 
+//const zones = moment.tz.names().slice(500);
+//console.log('zones', zones);
+const toDate = mDates => mDates.map(mDate => mDate.toDate());
+const format = mDates => mDates.map(mDate => mDate.format());
+
+// multiple every key within an object by given multiplier
+function multiplyValues(obj, multiplier) {
+  return Object.keys(obj).reduce((result, key) => {
+    return Object.assign({}, result, { [key]: obj[key] * multiplier });
+  }, {});
+}
+
 class SimpleRecur {
-  constructor(start, interval, timezone = 'UTC') {
-    this.start = moment(start); // why UTC invalid?
+  constructor(start, interval, timezone) {
+    this.start = moment.tz(start, timezone); // why UTC invalid?
     this.interval = interval;
     this.timezone = timezone;
     // TODO validate start format and interval and timezone
   }
 
   firstOccurances(count) {
-    let result = [this.start.clone()];
-
-    _.times((count - 1), (i) => {
-      const last = result[i];
-      const next = last.clone().add(this.interval);
-      result = [...result, next];
+    return _.times(count, (i) => {
+      const addition = multiplyValues(this.interval, i);
+      return this.start.clone().add(addition);
     });
-
-    return result;
   }
 }
 
-const start = [2000, 0, 1];
+const start = [2017, 0, 31]; // 1st Jan
 const interval = { months: 1 };
+const TZ = 'Pacific/Auckland';
 const count = 12;
 
-const recurTest = new SimpleRecur(start, interval);
+const recurTest = new SimpleRecur(start, interval, TZ);
 const first = recurTest.firstOccurances(count);
-console.log('first', first);
+console.log('format(first)', format(first));
+console.log('toDate(first)', toDate(first));
