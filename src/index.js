@@ -77,8 +77,8 @@ const recurTest = new SimpleRecur(start, interval, TZ);
 //console.log('format(first)', format(first));
 //console.log('toDate(first)', toDate(first));
 
-const between = recurTest.between([2019, 2 ,15], [2020, 0, 3]);
-console.log('format(between)', format(between));
-console.log('toDate(between)', toDate(between));
+//const between = recurTest.between([2019, 2 ,15], [2020, 0, 3]);
+//console.log('format(between)', format(between));
+//console.log('toDate(between)', toDate(between));
 
 
