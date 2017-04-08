@@ -65,6 +65,8 @@ class SimpleRecur {
   }
 }
 
+module.exports = { SimpleRecur, toDate };
+
 const start = [2017, 0, 31]; // 1st Jan
 const interval = { months: 1 };
 const TZ = 'Pacific/Auckland';
