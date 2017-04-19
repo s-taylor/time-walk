@@ -78,3 +78,38 @@ test('.first - daily', (t) => {
   t.deepEqual(result, expected);
 });
 
+test('.between - daily', (t) => {
+  const TZ = 'UTC';
+
+  const recur = new SimpleRecur([2012, 7, 22], { days: 1 }, TZ);
+  const start = [2013, 4, 3];
+  const end = [2013, 4, 8];
+  const result = toDate(recur.between(start, end));
+  const expected = [
+    tzDate([2013, 4, 3], TZ),
+    tzDate([2013, 4, 4], TZ),
+    tzDate([2013, 4, 5], TZ),
+    tzDate([2013, 4, 6], TZ),
+    tzDate([2013, 4, 7], TZ),
+  ];
+
+  t.deepEqual(result, expected);
+});
+
+test('.between - daily where from and to do not match rule', (t) => {
+  const TZ = 'UTC';
+
+  const recur = new SimpleRecur([2012, 7, 22], { days: 1 }, TZ);
+  const start = [2013, 4, 2, 8]; // 8pm
+  const end = [2013, 4, 7, 3]; // 3pm
+  const result = toDate(recur.between(start, end));
+  const expected = [
+    tzDate([2013, 4, 3], TZ),
+    tzDate([2013, 4, 4], TZ),
+    tzDate([2013, 4, 5], TZ),
+    tzDate([2013, 4, 6], TZ),
+    tzDate([2013, 4, 7], TZ),
+  ];
+
+  t.deepEqual(result, expected);
+});

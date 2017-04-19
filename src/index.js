@@ -54,7 +54,8 @@ class SimpleRecur {
       const addition = multiplyValues(this.interval, i);
       const date = start.clone().add(addition);
 
-      if (date.isBetween(mFrom, mTo)) result.push(date);
+      // NOTE: should include any date matching the "from", but exclude any matching the "to"
+      if (date.isBetween(mFrom, mTo, null, '[)')) result.push(date);
       if (date.isAfter(mTo)) exit = true;
 
       i += 1;
@@ -67,11 +68,11 @@ class SimpleRecur {
 
 module.exports = { SimpleRecur, toDate };
 
-const start = [2017, 0, 31]; // 1st Jan
-const interval = { months: 1 };
-const TZ = 'Pacific/Auckland';
+//const start = [2017, 0, 31]; // 1st Jan
+//const interval = { months: 1 };
+//const TZ = 'Pacific/Auckland';
 
-const recurTest = new SimpleRecur(start, interval, TZ);
+//const recurTest = new SimpleRecur(start, interval, TZ);
 
 //const first = recurTest.first(12);
 //console.log('format(first)', format(first));
