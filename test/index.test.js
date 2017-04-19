@@ -4,8 +4,31 @@ const moment = require('moment-timezone');
 
 const tzDate = (date, tz) => moment.tz(date, tz).toDate();
 
-test('.first - monthly', (t) => {
+test('.first - gives correct number of occurences', (t) => {
   const times = 8;
+  const TZ = 'UTC';
+
+  const recur = new SimpleRecur([2000, 0, 1], {}, TZ);
+  const result = toDate(recur.first(times));
+
+  t.is(result.length, times);
+});
+
+test('.first - uses the TZ specified', (t) => {
+  const times = 1;
+  const TZ = 'Pacific/Auckland';
+
+  const recur = new SimpleRecur([2000, 0, 1], {}, TZ);
+  const result = toDate(recur.first(times));
+  const expected = [
+    tzDate([2000, 0, 1], TZ),
+  ];
+
+  t.deepEqual(result, expected);
+});
+
+test('.first - monthly', (t) => {
+  const times = 5;
   const TZ = 'UTC';
 
   const recur = new SimpleRecur([2000, 2, 1], { months: 1 }, TZ);
@@ -16,12 +39,8 @@ test('.first - monthly', (t) => {
     tzDate([2000, 4, 1], TZ),
     tzDate([2000, 5, 1], TZ),
     tzDate([2000, 6, 1], TZ),
-    tzDate([2000, 7, 1], TZ),
-    tzDate([2000, 8, 1], TZ),
-    tzDate([2000, 9, 1], TZ)
   ];
 
-  t.is(result.length, times);
   t.deepEqual(result, expected);
 });
 
@@ -36,15 +55,14 @@ test('.first - weekly', (t) => {
     tzDate([2015, 5, 22], TZ),
     tzDate([2015, 5, 29], TZ),
     tzDate([2015, 6, 6], TZ),
-    tzDate([2015, 6, 13], TZ)
+    tzDate([2015, 6, 13], TZ),
   ];
 
-  t.is(result.length, times);
   t.deepEqual(result, expected);
 });
 
 test('.first - daily', (t) => {
-  const times = 3;
+  const times = 5;
   const TZ = 'UTC';
 
   const recur = new SimpleRecur([2018, 5, 15], { days: 1 }, TZ);
@@ -52,10 +70,11 @@ test('.first - daily', (t) => {
   const expected = [
     tzDate([2018, 5, 15], TZ),
     tzDate([2018, 5, 16], TZ),
-    tzDate([2018, 5, 17], TZ)
+    tzDate([2018, 5, 17], TZ),
+    tzDate([2018, 5, 18], TZ),
+    tzDate([2018, 5, 19], TZ),
   ];
 
-  t.is(result.length, times);
   t.deepEqual(result, expected);
 });
 
