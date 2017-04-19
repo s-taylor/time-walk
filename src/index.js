@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const moment = require('moment-timezone');
+const { IntervalValues } = require('./constants/values');
 
 //const zones = moment.tz.names().slice(500);
 //console.log('zones', zones);
@@ -23,6 +24,15 @@ function multiplyValues(obj, multiplier) {
 //const testChange = changeZone(moment.tz([2000, 0, 1], 'UTC'), 'Pacific/Auckland');
 //console.log('testChange.format()', testChange.format());
 //console.log('testChange.toDate()', testChange.toDate());
+
+function getAvgInterval(interval) {
+  return Object.keys(interval).reduce((result, key) => {
+    const amount = interval[key];
+    const value = IntervalValues[key];
+    const total = amount * value;
+    return result + total;
+  }, 0);
+}
 
 class SimpleRecur {
   constructor(start, interval, timezone) {
@@ -67,4 +77,4 @@ class SimpleRecur {
   }
 }
 
-module.exports = { SimpleRecur, toDate };
+module.exports = { SimpleRecur, toDate, getAvgInterval };

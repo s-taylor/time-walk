@@ -1,6 +1,11 @@
 const test = require('ava');
-const { SimpleRecur, toDate } = require('../src/index');
 const moment = require('moment-timezone');
+const {
+  SimpleRecur,
+  toDate,
+  getAvgInterval,
+} = require('../src/index');
+const values = require('../src/constants/values');
 
 const tzDate = (date, tz) => moment.tz(date, tz).toDate();
 
@@ -112,4 +117,12 @@ test('.between - daily where from and to do not match rule', (t) => {
   ];
 
   t.deepEqual(result, expected);
+});
+
+test('.getAvgInterval', (t) => {
+  const interval = { months: 2, days: 1 };
+  const result = getAvgInterval(interval);
+  const expected = (values.Month * 2) + values.Day;
+
+  t.is(result, expected);
 });
