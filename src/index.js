@@ -38,6 +38,9 @@ class SimpleRecur {
   constructor(start, interval, timezone) {
     this.start = moment.tz(start, timezone); // why UTC invalid?
     this.interval = interval;
+    // TODO - use this to find the starting point for between
+    // "to" minus "from" / "avgInterval" and then maybe minus 1 to cater for variance ?
+    this.avgInteval = getAvgInterval(interval);
     this.timezone = timezone;
     // TODO validate start format and interval and timezone
   }
