@@ -11,7 +11,7 @@
   ],
   "rules": {
     "arrow-body-style": "off",
-    "comma-dangle": ["error", "never"],
+    "comma-dangle": ["error", "always-multiline"],
     "no-console": "off",
     "no-param-reassign": "off",
     "spaced-comment": "off",
