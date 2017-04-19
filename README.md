@@ -19,5 +19,7 @@ Sure! Should I use this? Probably not. This is very much a work in progress at t
 ## What still needs doing
 
 * stringify and parse function (so a rule can be saved and restored)
-* perforamnce improvements on between function which is currently woeful
-* a more robust test suite
+* more tests for between, does it work in all cases i.e. where from is WAY in the future from rule start
+* cater for singular moment words i.e. { day: 1 } instead of { days: 1 }
+* add get occurance function to return singular value, i.e. get me the 10th occurance of this rule
+* use the above in the between function
