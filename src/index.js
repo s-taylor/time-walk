@@ -4,7 +4,7 @@ const moment = require('moment-timezone');
 //const zones = moment.tz.names().slice(500);
 //console.log('zones', zones);
 const toDate = mDates => mDates.map(mDate => mDate.toDate());
-const format = mDates => mDates.map(mDate => mDate.format());
+//const format = mDates => mDates.map(mDate => mDate.format());
 
 // multiple every key within an object by given multiplier
 function multiplyValues(obj, multiplier) {
@@ -13,11 +13,12 @@ function multiplyValues(obj, multiplier) {
   }, {});
 }
 
-// converts a moment object from one timezone to another while maintaining the same time relative to the zone
-function changeZone(mDate, toZone) {
-  mDate.format(); //2016-08-30T22:00:00-06:00
-  return moment.tz(mDate.format('YYYY-MM-DDTHH:mm:ss.SSS'), moment.ISO_8601, toZone);
-}
+// converts a moment object from one timezone to another while maintaining the same time relative
+// to the zone
+//function changeZone(mDate, toZone) {
+  //mDate.format(); //2016-08-30T22:00:00-06:00
+  //return moment.tz(mDate.format('YYYY-MM-DDTHH:mm:ss.SSS'), moment.ISO_8601, toZone);
+//}
 
 //const testChange = changeZone(moment.tz([2000, 0, 1], 'UTC'), 'Pacific/Auckland');
 //console.log('testChange.format()', testChange.format());
@@ -67,19 +68,3 @@ class SimpleRecur {
 }
 
 module.exports = { SimpleRecur, toDate };
-
-//const start = [2017, 0, 31]; // 1st Jan
-//const interval = { months: 1 };
-//const TZ = 'Pacific/Auckland';
-
-//const recurTest = new SimpleRecur(start, interval, TZ);
-
-//const first = recurTest.first(12);
-//console.log('format(first)', format(first));
-//console.log('toDate(first)', toDate(first));
-
-//const between = recurTest.between([2019, 2 ,15], [2020, 0, 3]);
-//console.log('format(between)', format(between));
-//console.log('toDate(between)', toDate(between));
-
-
