@@ -119,10 +119,19 @@ test('.between - daily where from and to do not match rule', (t) => {
   t.deepEqual(result, expected);
 });
 
-test('.getAvgInterval', (t) => {
+test('.getAvgInterval - calculates correct values using words', (t) => {
   const interval = { months: 2, days: 1 };
   const result = getAvgInterval(interval);
   const expected = (values.Month * 2) + values.Day;
+
+  t.is(result, expected);
+});
+
+
+test('.getAvgInterval - calculates correct values using shorthand', (t) => {
+  const interval = { Q: 2, m: 30 };
+  const result = getAvgInterval(interval);
+  const expected = (values.Quarter * 2) + (values.Minute * 30);
 
   t.is(result, expected);
 });
