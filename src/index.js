@@ -54,15 +54,21 @@ class SimpleRecur {
   }
 
   // get occurances between defined dates
-  // WARNING: performance is subject to how far apart from/to are from the rule start date
   between(from, to) {
     const mFrom = moment.tz(from, this.timezone);
     const mTo = moment.tz(to, this.timezone);
 
+    // how far from rule start to between start ("from")
+    const distance = mFrom.toDate() - this.start.toDate();
+    // calculate approximately how many intervals to use for the start position
+    const initialMultiple = Math.floor(distance / this.avgInteval);
+
     const start = this.start.clone();
 
     let exit = false;
-    let i = 0;
+    // FOR PERFORMANCE TRACKING ONLY
+    let iterations = 0;
+    let i = initialMultiple;
     const result = [];
     while (!exit) {
       const addition = multiplyValues(this.interval, i);
@@ -72,10 +78,11 @@ class SimpleRecur {
       if (date.isBetween(mFrom, mTo, null, '[)')) result.push(date);
       if (date.isAfter(mTo)) exit = true;
 
+      iterations += 1;
       i += 1;
     }
 
-    console.log('this took', i, 'iterations');
+    console.log('this took', iterations, 'iterations');
     return result;
   }
 }
