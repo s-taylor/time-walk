@@ -23,3 +23,5 @@ Sure! Should I use this? Probably not. This is very much a work in progress at t
 * cater for singular moment words i.e. { day: 1 } instead of { days: 1 }
 * add get occurance function to return singular value, i.e. get me the 10th occurance of this rule
 * use the above in the between function
+* allow user to specify output type? moment.js object, js date, integer?
+* Remove use of decimals in calcs?
