@@ -11,3 +11,13 @@ I also wanted to see if it was possible to make a much more lightweight library.
 ## Why?
 
 At present I'm doing this purely as a personal challenge at this point, it's an interesting problem to solve but as I'm not doing this for work, and thus not spending work time on it, set expecations accordingly.
+
+## Can I use this?
+
+Sure! Should I use this? Probably not. This is very much a work in progress at this stage to see if it's feasible, hence the commented out code and thin test suite. Once production ready I'll make it known.
+
+## What still needs doing
+
+* stringify and parse function (so a rule can be saved and restored)
+* perforamnce improvements on between function which is currently woeful
+* a more robust test suite
