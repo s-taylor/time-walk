@@ -1,7 +1,7 @@
 const test = require('ava');
 const moment = require('moment-timezone');
 const {
-  SimpleRecur,
+  Dialga,
   toDate,
   getAvgInterval,
 } = require('../src/index');
@@ -13,8 +13,8 @@ test('.first - gives correct number of occurences', (t) => {
   const times = 8;
   const TZ = 'UTC';
 
-  const recur = new SimpleRecur([2000, 0, 1], {}, TZ);
-  const result = toDate(recur.first(times));
+  const rule = new Dialga([2000, 0, 1], {}, TZ);
+  const result = toDate(rule.first(times));
 
   t.is(result.length, times);
 });
@@ -23,8 +23,8 @@ test('.first - uses the TZ specified', (t) => {
   const times = 1;
   const TZ = 'Pacific/Auckland';
 
-  const recur = new SimpleRecur([2000, 0, 1], {}, TZ);
-  const result = toDate(recur.first(times));
+  const rule = new Dialga([2000, 0, 1], {}, TZ);
+  const result = toDate(rule.first(times));
   const expected = [
     tzDate([2000, 0, 1], TZ),
   ];
@@ -36,8 +36,8 @@ test('.first - monthly', (t) => {
   const times = 5;
   const TZ = 'UTC';
 
-  const recur = new SimpleRecur([2000, 2, 1], { months: 1 }, TZ);
-  const result = toDate(recur.first(times));
+  const rule = new Dialga([2000, 2, 1], { months: 1 }, TZ);
+  const result = toDate(rule.first(times));
   const expected = [
     tzDate([2000, 2, 1], TZ),
     tzDate([2000, 3, 1], TZ),
@@ -53,8 +53,8 @@ test('.first - weekly', (t) => {
   const times = 5;
   const TZ = 'UTC';
 
-  const recur = new SimpleRecur([2015, 5, 15], { weeks: 1 }, TZ);
-  const result = toDate(recur.first(times));
+  const rule = new Dialga([2015, 5, 15], { weeks: 1 }, TZ);
+  const result = toDate(rule.first(times));
   const expected = [
     tzDate([2015, 5, 15], TZ),
     tzDate([2015, 5, 22], TZ),
@@ -70,8 +70,8 @@ test('.first - daily', (t) => {
   const times = 5;
   const TZ = 'UTC';
 
-  const recur = new SimpleRecur([2018, 5, 15], { days: 1 }, TZ);
-  const result = toDate(recur.first(times));
+  const rule = new Dialga([2018, 5, 15], { days: 1 }, TZ);
+  const result = toDate(rule.first(times));
   const expected = [
     tzDate([2018, 5, 15], TZ),
     tzDate([2018, 5, 16], TZ),
@@ -86,10 +86,10 @@ test('.first - daily', (t) => {
 test('.between - daily', (t) => {
   const TZ = 'UTC';
 
-  const recur = new SimpleRecur([2012, 7, 22], { days: 1 }, TZ);
+  const rule = new Dialga([2012, 7, 22], { days: 1 }, TZ);
   const start = [2013, 4, 3];
   const end = [2013, 4, 8];
-  const result = toDate(recur.between(start, end));
+  const result = toDate(rule.between(start, end));
   const expected = [
     tzDate([2013, 4, 3], TZ),
     tzDate([2013, 4, 4], TZ),
@@ -104,10 +104,10 @@ test('.between - daily', (t) => {
 test('.between - daily where from and to do not match rule', (t) => {
   const TZ = 'UTC';
 
-  const recur = new SimpleRecur([2012, 7, 22], { days: 1 }, TZ);
+  const rule = new Dialga([2012, 7, 22], { days: 1 }, TZ);
   const start = [2013, 4, 2, 8]; // 8pm
   const end = [2013, 4, 7, 3]; // 3pm
-  const result = toDate(recur.between(start, end));
+  const result = toDate(rule.between(start, end));
   const expected = [
     tzDate([2013, 4, 3], TZ),
     tzDate([2013, 4, 4], TZ),

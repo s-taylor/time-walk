@@ -34,7 +34,7 @@ function getAvgInterval(interval) {
   }, 0);
 }
 
-class SimpleRecur {
+class Dialga {
   constructor(start, interval, timezone) {
     this.start = moment.tz(start, timezone); // why UTC invalid?
     this.interval = interval;
@@ -87,4 +87,4 @@ class SimpleRecur {
   }
 }
 
-module.exports = { SimpleRecur, toDate, getAvgInterval };
+module.exports = { Dialga, toDate, getAvgInterval };
