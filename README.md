@@ -6,6 +6,8 @@
 
 Dialga is a simple recurrance library. I was inspired to write this after having previously used `rrule` for a work project and found rrule to have it's quirks.
 
+See [rrule library here](https://github.com/jakubroztocil/rrule)
+
 ## What's different from rrule?
 
 ### Timezone Support
