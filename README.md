@@ -46,16 +46,28 @@ The reason for this, is in my mind this is two rules, not one. Why not just crea
 
 #### Creating a Rule
 
+Arguments for a `new` rule are...
+* a date (anything moment can parse, recommend not using a date object as this is not timezone agnostic)
+* an interval, how far apart is each occurance (must be a value moment can understand, see [moment docs here](https://momentjs.com/docs/#/manipulating/add/)
+* a timezone, must be valid as per moment-timezone, if you need a list use this...
+```
+const moment = require('moment-timezone');
+console.log(moment.tz.names());
+```
+
+Example...
+
 ```
 const { Dialga } = require('dialga');
 
 // create a rule for monthly on the 1st Sydney time
-// arguments are a date (anything moment can parse), interval and timezone
 const rule = new Dialga([2000, 0, 1], { months: 1 }, 'Australia/Sydney')
 
 ```
 
 #### Getting Occurances
+
+Arguments for `.first` is simply how many occurances from the rule _start_ (inclusive) you want to generate.
 
 ```
 // get the first three occurances (an array) for the rule as a moment objects
@@ -65,6 +77,10 @@ const occurances = rule.first(3);
 ```
 
 #### Getting Occurances within a Range
+
+Arguments for `.between` are...
+* a start date (anything moment can parse, again recommend timezone agnostic format)
+* an end date (anything moment can parse, again recommend timezone agnostic format)
 
 ```
 // get occurances between two given dates (results an array in moment js format)
