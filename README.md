@@ -40,7 +40,39 @@ The reason for this, is in my mind this is two rules, not one. Why not just crea
 
 ## How do I use it?
 
-**WARNING: this is a work in progress**
+**WARNING: this is a work in progress, not yet on npm**
+
+### Syntax
+
+#### Creating a Rule
+
+```
+const { Dialga } = require('dialga');
+
+// create a rule for monthly on the 1st Sydney time
+// arguments are a date (anything moment can parse), interval and timezone
+const rule = new Dialga([2000, 0, 1], { months: 1 }, 'Australia/Sydney')
+
+```
+
+#### Getting Occurances
+
+```
+// get the first three occurances (an array) for the rule as a moment objects
+const occurances = rule.first(3);
+
+// this should give the dates 01-Jan-2000, 01-Feb-2000, 01-Mar-2000
+```
+
+#### Getting Occurances within a Range
+
+```
+// get occurances between two given dates (results an array in moment js format)
+// note: dates don't need to match a valid occurances
+const occurances = rule.betwen([2000, 0, 8], [2000, 2, 3]);
+
+// this should give the dates 01-Feb-2000, 01-Mar-2000
+```
 
 
 ## Why am I doing this?
@@ -59,4 +91,5 @@ Sure! Should I use this? Probably not. This is very much a work in progress at t
 * add get occurance function to return singular value, i.e. get me the 10th occurance of this rule
 * use the above in the between function
 * allow user to specify output type? moment.js object, js date, integer?
-* Remove use of decimals in calcs?
+* remove use of decimals in calcs so more accurate
+* compile to ES2015
