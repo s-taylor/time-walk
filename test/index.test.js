@@ -83,6 +83,8 @@ test('.first - daily', (t) => {
   t.deepEqual(result, expected);
 });
 
+// .between tests
+
 test('.between - daily', (t) => {
   const TZ = 'UTC';
 
@@ -118,6 +120,28 @@ test('.between - daily where from and to do not match rule', (t) => {
 
   t.deepEqual(result, expected);
 });
+
+// this is to ensure results are accurate using getAverageInterval
+// month, quarter and year values are all averages so may be affected
+// by large differences between rule "start", and between "from"
+test('.between - where from date is far in the future', (t) => {
+  const TZ = 'UTC';
+
+  const rule = new Dialga([2017, 4, 3], { days: 7 }, TZ); // Wednesday 3rd May 2017 UTC
+  const start = [2117, 4, 5]; // Wednesday 5th May 2117 UTC
+  const end = [2117, 5, 2]; // 3pm
+  const result = toDate(rule.between(start, end));
+  const expected = [
+    tzDate([2117, 4, 5], TZ),
+    tzDate([2117, 4, 12], TZ),
+    tzDate([2117, 4, 19], TZ),
+    tzDate([2117, 4, 26], TZ),
+  ];
+
+  t.deepEqual(result, expected);
+});
+
+// .getAvgInterval tests
 
 test('.getAvgInterval - calculates correct values using words', (t) => {
   const interval = { months: 2, days: 1 };
