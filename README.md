@@ -92,7 +92,6 @@ const occurances = rule.betwen([2000, 0, 8], [2000, 2, 3]);
 // this should give the dates 01-Feb-2000, 01-Mar-2000
 ```
 
-
 ## Why am I doing this?
 
 At present I'm doing this purely as a personal challenge at this point, it's an interesting problem to solve but as I'm not doing this for work, and thus not spending work time on it, set expecations accordingly.
@@ -100,6 +99,10 @@ At present I'm doing this purely as a personal challenge at this point, it's an 
 ## Can I use this?
 
 Sure! Should I use this? Probably not. This is very much a work in progress at this stage to see if it's feasible, hence the commented out code and thin test suite. Once production ready I'll make it known.
+
+## How can I help?
+
+Send me a pull request! Please don't send me a pull request without tests though.
 
 ## What still needs doing
 
@@ -111,3 +114,4 @@ Sure! Should I use this? Probably not. This is very much a work in progress at t
 * allow user to specify output type? moment.js object, js date, integer?
 * remove use of decimals in calcs so more accurate
 * compile to ES2015
+* publishing to npm
