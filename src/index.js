@@ -45,12 +45,14 @@ class Dialga {
     // TODO validate start format and interval and timezone
   }
 
+  occurance(i) {
+    const addition = multiplyValues(this.interval, i);
+    return this.start.clone().add(addition);
+  }
+
   // get first X occurances for the defined rule
   first(count) {
-    return _.times(count, (i) => {
-      const addition = multiplyValues(this.interval, i);
-      return this.start.clone().add(addition);
-    });
+    return _.times(count, i => this.occurance(i));
   }
 
   // get occurances between defined dates
