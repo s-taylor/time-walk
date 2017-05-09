@@ -65,26 +65,23 @@ class Dialga {
     // calculate approximately how many intervals to use for the start position
     const initialMultiple = Math.floor(distance / this.avgInteval);
 
-    const start = this.start.clone();
-
     let exit = false;
     // FOR PERFORMANCE TRACKING ONLY
-    let iterations = 0;
+    let iterationCount = 0;
     let i = initialMultiple;
     const result = [];
     while (!exit) {
-      const addition = multiplyValues(this.interval, i);
-      const date = start.clone().add(addition);
+      const date = this.occurance(i);
 
       // NOTE: should include any date matching the "from", but exclude any matching the "to"
       if (date.isBetween(mFrom, mTo, null, '[)')) result.push(date);
       if (date.isAfter(mTo)) exit = true;
 
-      iterations += 1;
+      iterationCount += 1;
       i += 1;
     }
 
-    console.log('this took', iterations, 'iterations');
+    console.log('this took', iterationCount, 'iterations');
     return result;
   }
 }
