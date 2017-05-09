@@ -67,6 +67,10 @@ const rule = new Dialga([2000, 0, 1], { months: 1 }, 'Australia/Sydney')
 
 ```
 
+#### Getting nth Occurance
+
+TODO
+
 #### Getting Occurances
 
 Arguments for `.first` is simply how many occurances from the rule _start_ (inclusive) you want to generate.
