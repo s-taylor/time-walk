@@ -9,6 +9,15 @@ const values = require('../src/constants/values');
 
 const tzDate = (date, tz) => moment.tz(date, tz).toDate();
 
+// constructor
+test('constructor - fails when invalid moment date format', (t) => {
+  t.throws(
+    () => new Dialga([2000, 1, 31], { months: 1 }, 'UTC'), // 31st February is not valid date
+    Error,
+    'first argument cannot be parsed by moment'
+  );
+});
+
 // .occurance tests
 
 test('.occurance - 0 gives the first occurance (matches rule start)', (t) => {

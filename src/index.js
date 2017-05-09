@@ -42,7 +42,9 @@ class Dialga {
     // "to" minus "from" / "avgInterval" and then maybe minus 1 to cater for variance ?
     this.avgInteval = getAvgInterval(interval);
     this.timezone = timezone;
+
     // TODO validate start format and interval and timezone
+    if (!this.start.isValid()) throw new Error('first argument cannot be parsed by moment');
   }
 
   // NOTE: this is 0 indexed, 0 will return the first occurance (matches rule start)
