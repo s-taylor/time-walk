@@ -47,6 +47,8 @@ class Dialga {
 
   // NOTE: this is 0 indexed, 0 will return the first occurance (matches rule start)
   occurance(i) {
+    if (typeof i !== 'number') throw new Error('first argument must be a number');
+
     if (i === 0) return this.start.clone();
     const addition = multiplyValues(this.interval, i);
     return this.start.clone().add(addition);

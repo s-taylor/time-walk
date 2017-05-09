@@ -26,6 +26,20 @@ test('.occurance - 4 gives the fifth occurance', (t) => {
   t.deepEqual(result.toDate(), tzDate([2000, 6, 1], TZ));
 });
 
+test('.occurance - throws error if i not a number', (t) => {
+  t.plan(1);
+  const TZ = 'UTC';
+
+  const rule = new Dialga([2000, 2, 1], { months: 1 }, TZ);
+
+  try {
+    rule.occurance('1');
+  } catch (err) {
+    t.deepEqual(err, new Error('first argument must be a number'));
+  }
+});
+
+// .first tests
 test('.first - gives correct number of occurences', (t) => {
   const times = 8;
   const TZ = 'UTC';
