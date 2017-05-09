@@ -9,6 +9,23 @@ const values = require('../src/constants/values');
 
 const tzDate = (date, tz) => moment.tz(date, tz).toDate();
 
+// .occurance tests
+test('.occurance - 0 gives the first occurance (matches rule start)', (t) => {
+  const TZ = 'UTC';
+
+  const rule = new Dialga([2000, 2, 1], { months: 1 }, TZ);
+  const result = rule.occurance(0);
+  t.deepEqual(result.toDate(), tzDate([2000, 2, 1], TZ));
+});
+
+test('.occurance - 4 gives the fifth occurance', (t) => {
+  const TZ = 'UTC';
+
+  const rule = new Dialga([2000, 2, 1], { months: 1 }, TZ);
+  const result = rule.occurance(4);
+  t.deepEqual(result.toDate(), tzDate([2000, 6, 1], TZ));
+});
+
 test('.first - gives correct number of occurences', (t) => {
   const times = 8;
   const TZ = 'UTC';

@@ -45,7 +45,9 @@ class Dialga {
     // TODO validate start format and interval and timezone
   }
 
+  // NOTE: this is 0 indexed, 0 will return the first occurance (matches rule start)
   occurance(i) {
+    if (i === 0) return this.start.clone();
     const addition = multiplyValues(this.interval, i);
     return this.start.clone().add(addition);
   }
