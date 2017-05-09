@@ -14,7 +14,15 @@ test('constructor - fails when invalid moment date format', (t) => {
   t.throws(
     () => new Dialga([2000, 1, 31], { months: 1 }, 'UTC'), // 31st February is not valid date
     Error,
-    'first argument cannot be parsed by moment'
+    'start date cannot be parsed by moment'
+  );
+});
+
+test('constructor - fails when timezone invalid', (t) => {
+  t.throws(
+    () => new Dialga([2000, 0, 1], { months: 1 }, 'Adventure/Time'),
+    Error,
+    'timezone is invalid'
   );
 });
 

@@ -2,8 +2,7 @@ const _ = require('lodash');
 const moment = require('moment-timezone');
 const { IntervalValues } = require('./constants/values');
 
-//const zones = moment.tz.names().slice(500);
-//console.log('zones', zones);
+const timezones = moment.tz.names();
 const toDate = mDates => mDates.map(mDate => mDate.toDate());
 //const format = mDates => mDates.map(mDate => mDate.format());
 
@@ -44,7 +43,8 @@ class Dialga {
     this.timezone = timezone;
 
     // TODO validate start format and interval and timezone
-    if (!this.start.isValid()) throw new Error('first argument cannot be parsed by moment');
+    if (!this.start.isValid()) throw new Error('start date cannot be parsed by moment');
+    if (!timezones.includes(this.timezone)) throw new Error('timezone is invalid');
   }
 
   // NOTE: this is 0 indexed, 0 will return the first occurance (matches rule start)
