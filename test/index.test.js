@@ -7,8 +7,6 @@ const {
 } = require('../src/index');
 const values = require('../src/constants/values');
 
-const tzDate = (date, tz) => moment.tz(date, tz).toDate();
-
 /* eslint-disable new-cap */
 
 // constructor
