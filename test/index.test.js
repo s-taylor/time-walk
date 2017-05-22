@@ -177,6 +177,23 @@ test('.between - where from date is far in the future', (t) => {
   t.deepEqual(result, expected);
 });
 
+test('.between - daylight savings test', (t) => {
+  const TZ = 'Australia/Sydney';
+  // Daylight savings changes on 1st of October 2017
+  const rule = new Dialga('2017-09-30 00:00:00', { days: 1 }, TZ);
+
+  // Pre-Daylight Savings
+  // 12pm (Midnight) in Sydney === 2pm UTC
+  const result = toDate(rule.between('2017-09-30', '2017-10-04'));
+  const expected = [
+    new Date('2017-09-29T14:00:00.000Z'),
+    new Date('2017-09-30T14:00:00.000Z'),
+    new Date('2017-10-01T13:00:00.000Z'),
+    new Date('2017-10-02T13:00:00.000Z'),
+  ];
+  t.deepEqual(result, expected);
+});
+
 // .getAvgInterval tests
 
 test('.getAvgInterval - calculates correct values using words', (t) => {
