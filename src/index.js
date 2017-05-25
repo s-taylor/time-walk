@@ -87,6 +87,7 @@ class Dialga {
       i += 1;
     }
 
+    // eslint-disable-next-line no-console
     console.log('this took', iterationCount, 'iterations');
     return result;
   }
