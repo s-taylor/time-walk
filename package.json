@@ -13,7 +13,9 @@
     "moment-timezone": "^0.5.11"
   },
   "devDependencies": {
-    "ava": "^0.19.1"
+    "ava": "^0.19.1",
+    "eslint": "^3.19.0",
+    "eslint-config-staylor": "^1.0.1"
   },
   "ava": {
     "verbose": true
