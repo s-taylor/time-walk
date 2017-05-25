@@ -1143,9 +1143,9 @@ eslint-config-airbnb@^10.0.1:
   dependencies:
     eslint-config-airbnb-base "^5.0.2"
 
-eslint-config-staylor@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-config-staylor/-/eslint-config-staylor-1.0.1.tgz#cfa06df8f8d6e04ca68f30e2d7c92d2224e3c49f"
+eslint-config-staylor@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-staylor/-/eslint-config-staylor-1.1.0.tgz#f1a7a148f4461e716c18bee4aef6203c87258d54"
   dependencies:
     eslint "^3.4.0"
     eslint-config-airbnb "^10.0.1"
