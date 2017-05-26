@@ -1,4 +1,7 @@
-const { IntervalValues } = require('../constants/values');
+const {
+  IntervalValues,
+  SimplifyLookup,
+} = require('../constants/values');
 
 // multiple every key within an object by given multiplier
 function multiplyValues(obj, multiplier) {
@@ -16,7 +19,18 @@ function getAvgInterval(interval) {
   }, 0);
 }
 
+function simplify(interval) {
+  return Object.keys(interval).reduce((result, key) => {
+    const converted = SimplifyLookup[key];
+    // filter out keys that don't match
+    if (!converted) throw new Error(`Invalid time interval: ${key}`);
+    if (result[converted] != null) throw new Error(`Duplicate time interval: ${key}`);
+    return Object.assign({}, result, { [converted]: interval[key] });
+  }, {});
+}
+
 module.exports = {
-  multiplyValues,
   getAvgInterval,
+  multiplyValues,
+  simplify,
 };
