@@ -51,7 +51,7 @@ test('.occurance - throws error if i not a number', (t) => {
   t.throws(
     () => rule.occurance('1'),
     Error,
-    'first argument must be a number',
+    'first argument must be a number'
   );
 });
 
