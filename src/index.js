@@ -1,17 +1,10 @@
 const _ = require('lodash');
 const moment = require('moment-timezone');
-const { IntervalValues } = require('./constants/values');
+const { multiplyValues, getAvgInterval } = require('./helper/interval');
 
 const timezones = moment.tz.names();
 const toDate = mDates => mDates.map(mDate => mDate.toDate());
 //const format = mDates => mDates.map(mDate => mDate.format());
-
-// multiple every key within an object by given multiplier
-function multiplyValues(obj, multiplier) {
-  return Object.keys(obj).reduce((result, key) => {
-    return Object.assign({}, result, { [key]: obj[key] * multiplier });
-  }, {});
-}
 
 // converts a moment object from one timezone to another while maintaining the same time relative
 // to the zone
@@ -23,15 +16,6 @@ function multiplyValues(obj, multiplier) {
 //const testChange = changeZone(moment.tz([2000, 0, 1], 'UTC'), 'Pacific/Auckland');
 //console.log('testChange.format()', testChange.format());
 //console.log('testChange.toDate()', testChange.toDate());
-
-function getAvgInterval(interval) {
-  return Object.keys(interval).reduce((result, key) => {
-    const amount = interval[key];
-    const value = IntervalValues[key];
-    const total = amount * value;
-    return result + total;
-  }, 0);
-}
 
 class Dialga {
   constructor(start, interval, timezone) {
