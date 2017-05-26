@@ -1,5 +1,5 @@
 const test = require('ava');
-const { getAvgInterval } = require('../../src/helper/interval');
+const { getAvgInterval, simplify } = require('../../src/helper/interval');
 const values = require('../../src/constants/values');
 
 // .getAvgInterval tests
@@ -28,3 +28,32 @@ test('.getAvgInterval - calculates correct values using shorthand', (t) => {
   t.is(result, expected);
 });
 
+test('.simplify - changes all values to their shorthand', (t) => {
+  const interval = { years: 2, month: 1, milliseconds: 20 };
+  const result = simplify(interval);
+  const expected = { y: 2, M: 1, ms: 20 };
+
+  t.deepEqual(result, expected);
+});
+
+test('.simplify - errors on invalid keys', (t) => {
+  const interval = { years: 2, unicorns: 2 };
+
+  const error = t.throws(
+    () => simplify(interval),
+    Error
+  );
+
+  t.is(error.message, 'Invalid time interval: unicorns');
+});
+
+test('.simplify - drops invalid values', (t) => {
+  const interval = { years: 2, year: 4 };
+
+  const error = t.throws(
+    () => simplify(interval),
+    Error
+  );
+
+  t.is(error.message, 'Duplicate time interval: year');
+});

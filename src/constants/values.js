@@ -68,7 +68,7 @@ const SimplifyLookup = {
   milliseconds: 'ms',
   millisecond: 'ms',
   ms: 'ms',
-}
+};
 
 module.exports = {
   Millisecond,
