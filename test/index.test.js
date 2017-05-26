@@ -3,9 +3,7 @@ const moment = require('moment-timezone');
 const {
   Dialga,
   toDate,
-  getAvgInterval,
 } = require('../src/index');
-const values = require('../src/constants/values');
 
 /* eslint-disable new-cap */
 
@@ -192,32 +190,6 @@ test('.between - daylight savings test', (t) => {
     new Date('2017-10-02T13:00:00.000Z'),
   ];
   t.deepEqual(result, expected);
-});
-
-// .getAvgInterval tests
-
-test('.getAvgInterval - calculates correct values using plural words', (t) => {
-  const interval = { months: 2, days: 3 };
-  const result = getAvgInterval(interval);
-  const expected = (values.Month * 2) + (values.Day * 3);
-
-  t.is(result, expected);
-});
-
-test('.getAvgInterval - calculates correct values using singular words', (t) => {
-  const interval = { day: 1, minute: 1 };
-  const result = getAvgInterval(interval);
-  const expected = values.Day + values.Minute;
-
-  t.is(result, expected);
-});
-
-test('.getAvgInterval - calculates correct values using shorthand', (t) => {
-  const interval = { Q: 2, m: 30 };
-  const result = getAvgInterval(interval);
-  const expected = (values.Quarter * 2) + (values.Minute * 30);
-
-  t.is(result, expected);
 });
 
 /* eslint-disable new-cap */
