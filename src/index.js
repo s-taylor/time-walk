@@ -1,6 +1,10 @@
 const _ = require('lodash');
 const moment = require('moment-timezone');
-const { multiplyValues, getAvgInterval } = require('./helper/interval');
+const {
+  getAvgInterval,
+  multiplyValues,
+  simplify,
+} = require('./helper/interval');
 
 const timezones = moment.tz.names();
 const toDate = mDates => mDates.map(mDate => mDate.toDate());
@@ -20,7 +24,7 @@ const toDate = mDates => mDates.map(mDate => mDate.toDate());
 class Dialga {
   constructor(start, interval, timezone) {
     this.start = moment.tz(start, timezone); // why UTC invalid?
-    this.interval = interval;
+    this.interval = simplify(interval);
     // TODO - use this to find the starting point for between
     // "to" minus "from" / "avgInterval" and then maybe minus 1 to cater for variance ?
     this.avgInteval = getAvgInterval(interval);
