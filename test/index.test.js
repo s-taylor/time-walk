@@ -24,6 +24,14 @@ test('constructor - fails when timezone invalid', (t) => {
   );
 });
 
+test('constructor - uses simplify', (t) => {
+  const interval = { months: 1, days: 7 };
+  const rule = new Dialga('2000-01-01', interval, 'UTC');
+
+  const expected = { M: 1, d: 7 };
+  t.deepEqual(expected, rule.interval);
+});
+
 // .occurance tests
 
 test('.occurance - 0 gives the first occurance (matches rule start)', (t) => {
