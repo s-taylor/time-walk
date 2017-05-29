@@ -25,7 +25,7 @@ class Dialga {
   constructor(start, interval, timezone) {
     this.start = moment.tz(start, timezone);
     this.interval = simplify(interval);
-    this.avgInteval = getAvgInterval(interval);
+    this.avgInteval = getAvgInterval(this.interval);
     this.timezone = timezone;
 
     // TODO validate start format and interval and timezone

@@ -11,32 +11,14 @@ const Quarter = (DaysInYear * Day) / 4;
 const Year = DaysInYear * Day;
 
 const IntervalValues = {
-  years: Year,
-  year: Year,
   y: Year,
-  quarters: Quarter,
-  quarter: Quarter,
   Q: Quarter,
-  months: Month,
-  month: Month,
   M: Month,
-  weeks: Week,
-  week: Week,
   w: Week,
-  days: Day,
-  day: Day,
   d: Day,
-  hours: Hour,
-  hour: Hour,
   h: Hour,
-  minutes: Minute,
-  minute: Minute,
   m: Minute,
-  seconds: Second,
-  second: Second,
   s: Second,
-  milliseconds: Millisecond,
-  millisecond: Millisecond,
   ms: Millisecond,
 };
 
