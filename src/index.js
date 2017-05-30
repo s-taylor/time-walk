@@ -82,7 +82,6 @@ class Dialga {
     const start = this.start.format('Y-MM-DDTHH:mm:ss:SSS');
     const intervalKeys = Object.keys(this.interval).sort();
     const interval = intervalKeys.map(k => `${k}${this.interval[k]}`).join(':');
-    console.log('interval', interval);
     return `START=${start};INTERVAL=${interval};TZ=${this.timezone};`;
   }
 }
