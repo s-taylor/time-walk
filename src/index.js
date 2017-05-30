@@ -77,6 +77,14 @@ class Dialga {
     console.log('this took', iterationCount, 'iterations');
     return result;
   }
+
+  toString() {
+    const start = this.start.format('Y-MM-DDTHH:mm:ss:SSS');
+    const intervalKeys = Object.keys(this.interval).sort();
+    const interval = intervalKeys.map(k => `${k}${this.interval[k]}`).join(':');
+    console.log('interval', interval);
+    return `START=${start};INTERVAL=${interval};TZ=${this.timezone};`;
+  }
 }
 
 module.exports = { Dialga, toDate, getAvgInterval };

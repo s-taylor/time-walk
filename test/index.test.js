@@ -200,4 +200,14 @@ test('.between - daylight savings test', (t) => {
   t.deepEqual(result, expected);
 });
 
+// .toString tests
+
+test('.toString - must return stringified rule', (t) => {
+  const rule = new Dialga('2000-01-01', { days: 1, years: 3 }, 'Australia/Sydney');
+  const result = rule.toString();
+
+  const expected = 'START=2000-01-01T00:00:00:000;INTERVAL=d1:y3;TZ=Australia/Sydney;';
+  t.is(result, expected);
+});
+
 /* eslint-disable new-cap */
