@@ -10,27 +10,33 @@ const {
 
 // constructor
 test('constructor - fails when invalid moment date format', (t) => {
-  t.throws(
+  const error = t.throws(
     () => new Dialga('2000-02-31', { months: 1 }, 'UTC'), // 31st February is not valid date
-    Error,
-    'start date cannot be parsed by moment'
+    Error
   );
+
+  t.is(error.message, 'start date cannot be parsed by moment');
 });
 
 test('constructor - fails when timezone invalid', (t) => {
-  t.throws(
+  const error = t.throws(
     () => new Dialga('2000-01-01', { months: 1 }, 'Adventure/Time'),
-    Error,
-    'timezone is invalid'
+    Error
   );
+
+  t.is(error.message, 'timezone is invalid');
 });
 
 test('constructor - fails when start timezone doesn\'t match input timezone', (t) => {
   const start = new moment.tz('2000-01-01', 'Pacific/Auckland');
 
-  t.throws(
+  const error = t.throws(
     () => new Dialga(start, { months: 1 }, 'Australia/Sydney'),
-    Error,
+    Error
+  );
+
+  t.is(
+     error.message,
     'start date\'s timezone, does not match timezone input'
   );
 });
