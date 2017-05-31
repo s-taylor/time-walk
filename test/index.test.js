@@ -25,6 +25,16 @@ test('constructor - fails when timezone invalid', (t) => {
   );
 });
 
+test('constructor - fails when start timezone doesn\'t match input timezone', (t) => {
+  const start = new moment.tz('2000-01-01', 'Pacific/Auckland');
+
+  t.throws(
+    () => new Dialga(start, { months: 1 }, 'Australia/Sydney'),
+    Error,
+    'start date\'s timezone, does not match timezone input'
+  );
+});
+
 test('constructor - uses simplify', (t) => {
   const interval = { months: 1, days: 7 };
   const rule = new Dialga('2000-01-01', interval, 'UTC');
