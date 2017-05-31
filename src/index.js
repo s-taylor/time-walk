@@ -53,8 +53,6 @@ class Dialga {
     const initialMultiple = Math.floor(distance / this.avgInteval);
 
     let exit = false;
-    // FOR PERFORMANCE TRACKING ONLY
-    let iterationCount = 0;
     let i = initialMultiple;
     const result = [];
     while (!exit) {
@@ -64,12 +62,9 @@ class Dialga {
       if (date.isBetween(mFrom, mTo, null, '[)')) result.push(date);
       if (date.isAfter(mTo)) exit = true;
 
-      iterationCount += 1;
       i += 1;
     }
 
-    // eslint-disable-next-line no-console
-    console.log('this took', iterationCount, 'iterations');
     return result;
   }
 

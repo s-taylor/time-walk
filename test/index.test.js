@@ -1,4 +1,5 @@
 const test = require('ava');
+const sinon = require('sinon');
 const moment = require('moment-timezone');
 const {
   Dialga,
@@ -215,6 +216,29 @@ test('.between - daylight savings test', (t) => {
     new Date('2017-10-02T13:00:00.000Z'),
   ];
   t.deepEqual(result, expected);
+});
+
+test('.between - performance tests', (t) => {
+  const TZ = 'UTC';
+  const rule = new Dialga('2012-08-22', { days: 1 }, TZ);
+
+  const spy = sinon.spy(rule, 'occurance');
+
+  toDate(rule.between('2013-05-03', '2013-05-08'));
+  const expected = [
+    new moment.tz('2013-05-03', TZ).toDate(),
+    new moment.tz('2013-05-04', TZ).toDate(),
+    new moment.tz('2013-05-05', TZ).toDate(),
+    new moment.tz('2013-05-06', TZ).toDate(),
+    new moment.tz('2013-05-07', TZ).toDate(),
+  ];
+
+  // occurance should never be worse than the
+  // expected number of dates + 2 additional iterations
+  t.true(
+    spy.callCount <= (expected.length + 2),
+    'occurance count must not exceed expected date count + 2'
+  );
 });
 
 // .toString tests
