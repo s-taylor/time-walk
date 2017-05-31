@@ -53,29 +53,7 @@ Arguments for a `new` rule are...
 * an interval, how far apart is each occurance (must be a value moment can understand, see [moment docs here](https://momentjs.com/docs/#/manipulating/add/)
 * a timezone, must be valid as per moment-timezone, if you need a [list](https://runkit.com/nizmox/592e51e95b3c9b00122cbf78).
 
-**WARNING:** You need to be somewhat careful what start date argument you give to Dialga.
-If you pass a date object in, bear in mind dates (either moment or regular javascript dates are NOT timezone agnostic).
-
-For example, imagine if I want a rule that occurs on the 1st of the month (midnight) in New Zealand time (i.e. Pacific/Auckland timezone).
-So I create the following rule.
-```
-const { Dialga } = require('dialga');
-
-const start = new Date(2000, 0, 1);
-const rule = new Dialga(start, { months: 1 }, 'Pacific/Auckland');
-```
-
-- - -
-
-Example...
-
-```
-const { Dialga } = require('dialga');
-
-// create a rule for monthly on the 1st Sydney time
-const rule = new Dialga([2000, 0, 1], { months: 1 }, 'Australia/Sydney')
-
-```
+**WARNING:** You need to be somewhat careful what start date argument you give to Dialga. You should either pass in a date that is timezone agnostic (i.e. date string) or if the date has a timezone, this should match the timezone specified.
 
 #### Getting nth Occurance
 

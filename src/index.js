@@ -12,6 +12,12 @@ const toDate = mDates => mDates.map(mDate => mDate.toDate());
 
 class Dialga {
   constructor(start, interval, timezone) {
+    // safeguard against user passing a moment object for the start date
+    // where that object's timezone does not match the input timezone (3rd arg)
+    if (start instanceof moment && start.tz() !== timezone) {
+      throw new Error('start date\'s timezone, does not match timezone input');
+    }
+
     this.start = moment.tz(start, timezone);
     this.interval = simplify(interval);
     this.avgInteval = getAvgInterval(this.interval);
