@@ -49,11 +49,36 @@ The reason for this, is in my mind this is two rules, not one. Why not just crea
 #### Creating a Rule
 
 Arguments for a `new` rule are...
-* a start date for the rule (anything moment can parse, see [moment docs here](https://momentjs.com/docs/#/parsing/))
-* an interval, how far apart is each occurance (must be a value moment can understand, see [moment docs here](https://momentjs.com/docs/#/manipulating/add/)
-* a timezone, must be valid as per moment-timezone, if you need a [list](https://runkit.com/nizmox/592e51e95b3c9b00122cbf78).
+* a **start date** for the rule (anything moment can parse, see [moment docs here](https://momentjs.com/docs/#/parsing/))
+* an **interval**, how far apart is each occurance (must be a value moment can understand, see [moment docs here](https://momentjs.com/docs/#/manipulating/add/)
+* a **timezone**, must be valid as per moment-timezone, if you need a [list](https://runkit.com/nizmox/592e51e95b3c9b00122cbf78).
 
-**WARNING:** You need to be somewhat careful what start date argument you give to Dialga. You should either pass in a date that is timezone agnostic (i.e. date string) or if the date has a timezone, this should match the timezone specified.
+**WARNING:** You need to be somewhat careful what **start date** argument you give to Dialga. You should either pass in a date that is timezone agnostic (i.e. date string) or if the date has a timezone, this should match the timezone specified.
+
+For example, these are OK:-
+```js
+const start = new moment.tz('2000-01-01', 'Pacific/Auckland');
+const rule = new Dialga(start, { months: 1 }, 'Pacific/Auckland');
+```
+OR
+```js
+const rule = new Dialga('2000-01-01', { months: 1 }, 'Pacific/Auckland');
+```
+
+This will error, because the zones don't match:-
+```js
+const start = new moment.tz('2000-01-01', 'Australia/Sydney');
+const rule = new Dialga(start, { months: 1 }, 'Pacific/Auckland');
+```
+
+But using a `Date` may cause unexpected outcomes:-
+```js
+const TZ = 'Pacific/Auckland';
+const start = new Date(2000, 0, 1);
+const rule = new Dialga(start, { months: 1 }, TZ);
+```
+This is because when you use `new Date`, you're getting the date you specified in the timezone of your machine / server. And not the TZ value you've specified. It'll be fine if your machine / server's timezone === `'Pacific/Auckland'`, but wrong if it's not. I may in future disable js dates as an input to avoid confusion.
+
 
 #### Getting nth Occurance
 
@@ -63,7 +88,7 @@ TODO
 
 Arguments for `.first` is simply how many occurances from the rule _start_ (inclusive) you want to generate.
 
-```
+```js
 // get the first three occurances (an array) for the rule as a moment objects
 const occurances = rule.first(3);
 
@@ -76,7 +101,7 @@ Arguments for `.between` are...
 * a start date (anything moment can parse, again recommend timezone agnostic format)
 * an end date (anything moment can parse, again recommend timezone agnostic format)
 
-```
+```js
 // get occurances between two given dates (results an array in moment js format)
 // note: dates don't need to match a valid occurances
 const occurances = rule.betwen([2000, 0, 8], [2000, 2, 3]);
