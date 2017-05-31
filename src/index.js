@@ -86,4 +86,4 @@ class Dialga {
   }
 }
 
-module.exports = { Dialga, toDate, getAvgInterval };
+module.exports = { Dialga, toDate };
