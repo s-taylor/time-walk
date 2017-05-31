@@ -51,22 +51,18 @@ The reason for this, is in my mind this is two rules, not one. Why not just crea
 Arguments for a `new` rule are...
 * a start date for the rule (anything moment can parse, see [moment docs here](https://momentjs.com/docs/#/parsing/))
 * an interval, how far apart is each occurance (must be a value moment can understand, see [moment docs here](https://momentjs.com/docs/#/manipulating/add/)
-* a timezone, must be valid as per moment-timezone, if you need a list use this...
-```
-const moment = require('moment-timezone');
-console.log(moment.tz.names());
-```
+* a timezone, must be valid as per moment-timezone, if you need a [list](https://runkit.com/nizmox/592e51e95b3c9b00122cbf78).
 
-WARNING: You need to be somewhat careful what start date argument you give to Dialga.
+**WARNING:** You need to be somewhat careful what start date argument you give to Dialga.
 If you pass a date object in, bear in mind dates (either moment or regular javascript dates are NOT timezone agnostic).
 
 For example, imagine if I want a rule that occurs on the 1st of the month (midnight) in New Zealand time (i.e. Pacific/Auckland timezone).
 So I create the following rule.
-``
+```
 const { Dialga } = require('dialga');
 
 const start = new Date(2000, 0, 1);
-const rule = new Dialga(start, { months: 1 }, 'Pacific/Auckland'):
+const rule = new Dialga(start, { months: 1 }, 'Pacific/Auckland');
 ```
 
 - - -
