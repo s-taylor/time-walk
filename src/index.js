@@ -10,17 +10,6 @@ const timezones = moment.tz.names();
 const toDate = mDates => mDates.map(mDate => mDate.toDate());
 //const format = mDates => mDates.map(mDate => mDate.format());
 
-// converts a moment object from one timezone to another while maintaining the same time relative
-// to the zone
-//function changeZone(mDate, toZone) {
-  //mDate.format(); //2016-08-30T22:00:00-06:00
-  //return moment.tz(mDate.format('YYYY-MM-DDTHH:mm:ss.SSS'), moment.ISO_8601, toZone);
-//}
-
-//const testChange = changeZone(moment.tz([2000, 0, 1], 'UTC'), 'Pacific/Auckland');
-//console.log('testChange.format()', testChange.format());
-//console.log('testChange.toDate()', testChange.toDate());
-
 class Dialga {
   constructor(start, interval, timezone) {
     this.start = moment.tz(start, timezone);
