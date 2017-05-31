@@ -98,11 +98,6 @@ Send me a pull request! Please don't send me a pull request without tests though
 
 ## What still needs doing
 
-* stringify and parse function (so a rule can be saved and restored)
-* more tests for between, does it work in all cases i.e. where from is WAY in the future from rule start
-* cater for singular moment words i.e. { day: 1 } instead of { days: 1 }
-* add get occurance function to return singular value, i.e. get me the 10th occurance of this rule
-* use the above in the between function
 * allow user to specify output type? moment.js object, js date, integer?
 * remove use of decimals in calcs so more accurate
 * compile to ES2015
