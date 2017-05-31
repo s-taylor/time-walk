@@ -52,19 +52,19 @@ test('constructor - uses simplify', (t) => {
 
 // .occurance tests
 
-test('.occurance - 0 gives the first occurance (matches rule start)', (t) => {
+test('.occurance - 1 gives the first occurance (matches rule start)', (t) => {
   const TZ = 'UTC';
   const rule = new Dialga('2000-03-01', { months: 1 }, TZ);
 
-  const result = rule.occurance(0);
+  const result = rule.occurance(1);
   t.deepEqual(result.toDate(), new moment.tz('2000-03-01', TZ).toDate());
 });
 
-test('.occurance - 4 gives the fifth occurance', (t) => {
+test('.occurance - 5 gives the fifth occurance', (t) => {
   const TZ = 'UTC';
   const rule = new Dialga('2000-03-01', { months: 1 }, TZ);
 
-  const result = rule.occurance(4);
+  const result = rule.occurance(5);
   t.deepEqual(result.toDate(), new moment.tz('2000-07-01', TZ).toDate());
 });
 
@@ -72,9 +72,13 @@ test('.occurance - throws error if i not a number', (t) => {
   const TZ = 'UTC';
   const rule = new Dialga('2000-03-01', { months: 1 }, TZ);
 
-  t.throws(
+  const error = t.throws(
     () => rule.occurance('1'),
-    Error,
+    Error
+  );
+
+  t.is(
+    error.message,
     'first argument must be a number'
   );
 });

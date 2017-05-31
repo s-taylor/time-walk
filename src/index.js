@@ -28,10 +28,15 @@ class Dialga {
     if (!timezones.includes(this.timezone)) throw new Error('timezone is invalid');
   }
 
-  // NOTE: this is 0 indexed, 0 will return the first occurance (matches rule start)
   occurance(i) {
     if (typeof i !== 'number') throw new Error('first argument must be a number');
+    if (i < 1) throw new Error('occurance value must be >= 1');
+    return this.__occurance(i - 1);
+  }
 
+  // NOTE: this is not intended for external use as it uses a 0 index
+  // which is confusing, use `occurance` instead
+  __occurance(i) {
     if (i === 0) return this.start.clone();
     const addition = multiplyValues(this.interval, i);
     return this.start.clone().add(addition);
@@ -39,7 +44,7 @@ class Dialga {
 
   // get first X occurances for the defined rule
   first(count) {
-    return _.times(count, i => this.occurance(i));
+    return _.times(count, i => this.__occurance(i));
   }
 
   // get occurances between defined dates
@@ -56,7 +61,7 @@ class Dialga {
     let i = initialMultiple;
     const result = [];
     while (!exit) {
-      const date = this.occurance(i);
+      const date = this.__occurance(i);
 
       // NOTE: should include any date matching the "from", but exclude any matching the "to"
       if (date.isBetween(mFrom, mTo, null, '[)')) result.push(date);
