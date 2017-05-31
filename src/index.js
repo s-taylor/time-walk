@@ -11,7 +11,7 @@ const toDate = mDates => mDates.map(mDate => mDate.toDate());
 //const format = mDates => mDates.map(mDate => mDate.format());
 
 function getFormatter(target) {
-  if (target === 'moment') return mDate => mDate;
+  if (target === 'moment') return _.identity;
   if (target === 'date') return mDate => mDate.toDate();
   if (target === 'string') return mDate => mDate.toISOString();
   throw new Error('invalid format');
