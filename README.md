@@ -128,3 +128,4 @@ Send me a pull request! Please don't send me a pull request without tests though
 * add getter methods
 * compile to ES2015
 * publishing to npm
+* Use CircleCI
