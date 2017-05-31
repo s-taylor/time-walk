@@ -79,11 +79,27 @@ class Dialga {
   }
 
   toString() {
-    const start = this.start.format('Y-MM-DDTHH:mm:ss:SSS');
+    const start = this.start.toISOString();
     const intervalKeys = Object.keys(this.interval).sort();
     const interval = intervalKeys.map(k => `${k}${this.interval[k]}`).join(':');
     return `START=${start};INTERVAL=${interval};TZ=${this.timezone};`;
   }
 }
 
-module.exports = { Dialga, toDate };
+function parse(str) {
+  const [, startStr] = /START=([^;]*);/.exec(str);
+  const [, intervalStr] = /INTERVAL=([^;]*);/.exec(str);
+  const [, tz] = /TZ=([^;]*);/.exec(str);
+
+  const start = startStr.replace('T', ' ');
+  const interval = intervalStr.split(':').reduce((result, value) => {
+    if (value.length === 3) {
+      return Object.assign({}, result, { [value.substring(0, 2)]: Number(value[2]) });
+    }
+    return Object.assign({}, result, { [value[0]]: Number(value[1]) });
+  }, {});
+
+  return new Dialga(start, interval, tz);
+}
+
+module.exports = { Dialga, toDate, parse };

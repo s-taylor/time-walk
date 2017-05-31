@@ -3,6 +3,7 @@ const moment = require('moment-timezone');
 const {
   Dialga,
   toDate,
+  parse,
 } = require('../src/index');
 
 /* eslint-disable new-cap */
@@ -206,8 +207,19 @@ test('.toString - must return stringified rule', (t) => {
   const rule = new Dialga('2000-01-01', { days: 1, years: 3 }, 'Australia/Sydney');
   const result = rule.toString();
 
-  const expected = 'START=2000-01-01T00:00:00:000;INTERVAL=d1:y3;TZ=Australia/Sydney;';
+  const expected = 'START=1999-12-31T13:00:00.000Z;INTERVAL=d1:y3;TZ=Australia/Sydney;';
   t.is(result, expected);
+});
+
+// .parse tests
+
+test('.parse - must return expected Dialga object', (t) => {
+  const ruleStr = 'START=1999-12-31T13:00:00.000Z;INTERVAL=d1:y3;TZ=Australia/Sydney;';
+  const result = parse(ruleStr);
+
+  t.deepEqual(result.start.toDate(), moment.tz('2000-01-01', 'Australia/Sydney').toDate());
+  t.deepEqual(result.interval, { d: 1, y: 3 });
+  t.is(result.timezone, 'Australia/Sydney');
 });
 
 /* eslint-disable new-cap */
