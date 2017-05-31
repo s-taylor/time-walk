@@ -53,23 +53,39 @@ test('constructor - uses simplify', (t) => {
 // .occurance tests
 
 test('.occurance - 1 gives the first occurance (matches rule start)', (t) => {
-  const TZ = 'UTC';
+  const TZ = 'Pacific/Auckland';
   const rule = new Dialga('2000-03-01', { months: 1 }, TZ);
 
   const result = rule.occurance(1);
-  t.deepEqual(result.toDate(), new moment.tz('2000-03-01', TZ).toDate());
+  t.deepEqual(result, new moment.tz('2000-03-01', TZ).toDate());
 });
 
 test('.occurance - 5 gives the fifth occurance', (t) => {
-  const TZ = 'UTC';
+  const TZ = 'Pacific/Auckland';
   const rule = new Dialga('2000-03-01', { months: 1 }, TZ);
 
   const result = rule.occurance(5);
-  t.deepEqual(result.toDate(), new moment.tz('2000-07-01', TZ).toDate());
+  t.deepEqual(result, new moment.tz('2000-07-01', TZ).toDate());
+});
+
+test('.occurance - allows specifying string output', (t) => {
+  const TZ = 'Pacific/Auckland';
+  const rule = new Dialga('2000-03-01', { months: 1 }, TZ);
+
+  const result = rule.occurance(1, 'string');
+  t.deepEqual(result, new moment.tz('2000-03-01', TZ).toISOString());
+});
+
+test('.occurance - allows specifying moment output', (t) => {
+  const TZ = 'Pacific/Auckland';
+  const rule = new Dialga('2000-03-01', { months: 1 }, TZ);
+
+  const result = rule.occurance(1, 'moment');
+  t.deepEqual(result, new moment.tz('2000-03-01', TZ));
 });
 
 test('.occurance - throws error if i not a number', (t) => {
-  const TZ = 'UTC';
+  const TZ = 'Pacific/Auckland';
   const rule = new Dialga('2000-03-01', { months: 1 }, TZ);
 
   const error = t.throws(

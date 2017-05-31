@@ -13,7 +13,7 @@ const toDate = mDates => mDates.map(mDate => mDate.toDate());
 function getFormatter(target) {
   if (target === 'moment') return mDate => mDate;
   if (target === 'date') return mDate => mDate.toDate();
-  if (target === 'string') return mDate => mDate.toISOString;
+  if (target === 'string') return mDate => mDate.toISOString();
   throw new Error('invalid format');
 }
 
@@ -41,10 +41,11 @@ class Dialga {
     if (!timezones.includes(this.timezone)) throw new Error('timezone is invalid');
   }
 
-  occurance(i) {
+  occurance(i, format) {
     if (typeof i !== 'number') throw new Error('first argument must be a number');
     if (i < 1) throw new Error('occurance value must be >= 1');
-    return this.__occurance(i - 1);
+    const result = this.__occurance(i - 1);
+    return toFormat(result, format);
   }
 
   // NOTE: this is not intended for external use as it uses a 0 index
