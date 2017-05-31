@@ -123,10 +123,12 @@ Send me a pull request! Please don't send me a pull request without tests though
 
 ## What still needs doing
 
-* allow user to specify output type? moment.js object, js date, integer?
-* remove use of decimals in calcs so more accurate
+* WIP - allow user to specify output type? moment.js object, js date, integer?
+* Change input to only accept a moment-timezone object and remove TZ as arg, add new function to allow creating using string date and timezone
 * add getter methods
 * finalise readme
-* compile to ES2015
 * publishing to npm
+
+* remove use of decimals in calcs so more accurate
+* compile to ES2015
 * Use CircleCI
