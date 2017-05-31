@@ -126,6 +126,7 @@ Send me a pull request! Please don't send me a pull request without tests though
 * allow user to specify output type? moment.js object, js date, integer?
 * remove use of decimals in calcs so more accurate
 * add getter methods
+* finalise readme
 * compile to ES2015
 * publishing to npm
 * Use CircleCI
