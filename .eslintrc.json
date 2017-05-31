@@ -8,6 +8,9 @@
     "import/no-extraneous-dependencies": [
       "error",
       { "devDependencies": ["**/*.test.js"] }
+    ],
+    "no-underscore-dangle": [
+      "off"
     ]
   }
 }

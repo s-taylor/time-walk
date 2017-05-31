@@ -10,6 +10,19 @@ const timezones = moment.tz.names();
 const toDate = mDates => mDates.map(mDate => mDate.toDate());
 //const format = mDates => mDates.map(mDate => mDate.format());
 
+function getFormatter(target) {
+  if (target === 'moment') return mDate => mDate;
+  if (target === 'date') return mDate => mDate.toDate();
+  if (target === 'string') return mDate => mDate.toISOString;
+  throw new Error('invalid format');
+}
+
+function toFormat(data, format = 'date') {
+  const formatter = getFormatter(format);
+  if (_.isArray(data)) return data.map(formatter);
+  return formatter(data);
+}
+
 class Dialga {
   constructor(start, interval, timezone) {
     // safeguard against user passing a moment object for the start date
