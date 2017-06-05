@@ -90,6 +90,7 @@ class Dialga {
 
   toString() {
     const start = this.start.toISOString();
+    // sort to ensure order is always the same, makes for simpler testing
     const intervalKeys = Object.keys(this.interval).sort();
     const interval = intervalKeys.map(k => `${k}${this.interval[k]}`).join(':');
     return `START=${start};INTERVAL=${interval};TZ=${this.timezone};`;
