@@ -57,8 +57,9 @@ class Dialga {
   }
 
   // get first X occurances for the defined rule
-  first(count) {
-    return _.times(count, i => this.__occurance(i));
+  first(count, format) {
+    const result = _.times(count, i => this.__occurance(i));
+    return toFormat(result, format);
   }
 
   // get occurances between defined dates

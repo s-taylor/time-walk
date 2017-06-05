@@ -106,7 +106,7 @@ test('.first - gives correct number of occurences', (t) => {
   const rule = new Dialga('2000-01-01', {}, TZ);
 
   const times = 8;
-  const result = toDate(rule.first(times));
+  const result = rule.first(times);
   t.is(result.length, times);
 });
 
@@ -115,7 +115,7 @@ test('.first - uses the TZ specified', (t) => {
   const rule = new Dialga('2000-01-01', {}, TZ);
 
   const times = 1;
-  const result = toDate(rule.first(times));
+  const result = rule.first(times);
   const expected = [new moment.tz('2000-01-01', TZ).toDate()];
 
   t.deepEqual(result, expected);
@@ -126,7 +126,7 @@ test('.first - monthly', (t) => {
   const rule = new Dialga('2000-03-01', { months: 1 }, TZ);
 
   const times = 5;
-  const result = toDate(rule.first(times));
+  const result = rule.first(times);
   const expected = [
     moment.tz('2000-03-01', TZ).toDate(),
     moment.tz('2000-04-01', TZ).toDate(),
@@ -142,7 +142,7 @@ test('.first - weekly', (t) => {
   const rule = new Dialga('2015-06-15', { weeks: 1 }, TZ);
 
   const times = 5;
-  const result = toDate(rule.first(times));
+  const result = rule.first(times);
   const expected = [
     moment.tz('2015-06-15', TZ).toDate(),
     moment.tz('2015-06-22', TZ).toDate(),
@@ -158,7 +158,7 @@ test('.first - daily', (t) => {
   const rule = new Dialga('2018-06-15', { days: 1 }, TZ);
 
   const times = 5;
-  const result = toDate(rule.first(times));
+  const result = rule.first(times);
   const expected = [
     moment.tz('2018-06-15', TZ).toDate(),
     moment.tz('2018-06-16', TZ).toDate(),
@@ -166,6 +166,24 @@ test('.first - daily', (t) => {
     moment.tz('2018-06-18', TZ).toDate(),
     moment.tz('2018-06-19', TZ).toDate(),
   ];
+  t.deepEqual(result, expected);
+});
+
+test('.occurance - allows specifying string output', (t) => {
+  const TZ = 'UTC';
+  const rule = new Dialga('2018-06-15', { days: 1 }, TZ);
+
+  const result = rule.first(1, 'string');
+  const expected = [moment.tz('2018-06-15', TZ).toISOString()];
+  t.deepEqual(result, expected);
+});
+
+test('.occurance - allows specifying moment output', (t) => {
+  const TZ = 'UTC';
+  const rule = new Dialga('2018-06-15', { days: 1 }, TZ);
+
+  const result = rule.first(1, 'moment');
+  const expected = [moment.tz('2018-06-15', TZ)];
   t.deepEqual(result, expected);
 });
 
