@@ -244,21 +244,16 @@ test('.between - performance tests', (t) => {
   const rule = new Dialga('2017-05-03', { days: 7 }, TZ); // Wednesday 3rd May 2017 UTC
 
   const spy = sinon.spy(rule, '__occurance');
+  toDate(rule.between('2117-05-05', '2117-06-02'));
 
-  const result = toDate(rule.between('2117-05-05', '2117-06-02'));
-  const expected = [
-    moment.tz('2117-05-05', TZ).toDate(),
-    moment.tz('2117-05-12', TZ).toDate(),
-    moment.tz('2117-05-19', TZ).toDate(),
-    moment.tz('2117-05-26', TZ).toDate(),
-  ];
-  t.deepEqual(result, expected);
+  // '2117-05-05', '2117-05-12', '2117-05-19', '2117-05-26';
+  const expectedLength = 4;
 
   // occurance should never be worse than the
   // expected number of dates + 2 additional iterations
   t.true(spy.callCount > 0, 'occurance has not been called');
   t.true(
-    spy.callCount <= (expected.length + 2),
+    spy.callCount <= (expectedLength + 2),
     'occurance count must not exceed expected date count + 2'
   );
 });
