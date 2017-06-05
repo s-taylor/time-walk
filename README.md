@@ -124,8 +124,9 @@ Send me a pull request! Please don't send me a pull request without tests though
 ## What still needs doing
 
 * WIP - allow user to specify output type? moment.js object, js date, integer?
+* Allow setting a default output type
 * Change input to only accept a moment-timezone object and remove TZ as arg, add new function to allow creating using string date and timezone
-* add getter methods
+* add getter methods (including default output type)
 * finalise readme
 * publishing to npm
 
