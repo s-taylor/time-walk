@@ -239,6 +239,30 @@ test('.between - where from date is far in the future', (t) => {
   t.deepEqual(result, expected);
 });
 
+test('.between - performance tests', (t) => {
+  const TZ = 'UTC';
+  const rule = new Dialga('2017-05-03', { days: 7 }, TZ); // Wednesday 3rd May 2017 UTC
+
+  const spy = sinon.spy(rule, '__occurance');
+
+  const result = toDate(rule.between('2117-05-05', '2117-06-02'));
+  const expected = [
+    moment.tz('2117-05-05', TZ).toDate(),
+    moment.tz('2117-05-12', TZ).toDate(),
+    moment.tz('2117-05-19', TZ).toDate(),
+    moment.tz('2117-05-26', TZ).toDate(),
+  ];
+  t.deepEqual(result, expected);
+
+  // occurance should never be worse than the
+  // expected number of dates + 2 additional iterations
+  t.true(spy.callCount > 0, 'occurance has not been called');
+  t.true(
+    spy.callCount <= (expected.length + 2),
+    'occurance count must not exceed expected date count + 2'
+  );
+});
+
 test('.between - daylight savings test', (t) => {
   const TZ = 'Australia/Sydney';
   // Daylight savings changes on 1st of October 2017
@@ -254,29 +278,6 @@ test('.between - daylight savings test', (t) => {
     new Date('2017-10-02T13:00:00.000Z'),
   ];
   t.deepEqual(result, expected);
-});
-
-test('.between - performance tests', (t) => {
-  const TZ = 'UTC';
-  const rule = new Dialga('2012-08-22', { days: 1 }, TZ);
-
-  const spy = sinon.spy(rule, 'occurance');
-
-  toDate(rule.between('2013-05-03', '2013-05-08'));
-  const expected = [
-    new moment.tz('2013-05-03', TZ).toDate(),
-    new moment.tz('2013-05-04', TZ).toDate(),
-    new moment.tz('2013-05-05', TZ).toDate(),
-    new moment.tz('2013-05-06', TZ).toDate(),
-    new moment.tz('2013-05-07', TZ).toDate(),
-  ];
-
-  // occurance should never be worse than the
-  // expected number of dates + 2 additional iterations
-  t.true(
-    spy.callCount <= (expected.length + 2),
-    'occurance count must not exceed expected date count + 2'
-  );
 });
 
 // .toString tests
