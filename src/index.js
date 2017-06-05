@@ -63,7 +63,7 @@ class Dialga {
   }
 
   // get occurances between defined dates
-  between(from, to) {
+  between(from, to, format) {
     const mFrom = moment.tz(from, this.timezone);
     const mTo = moment.tz(to, this.timezone);
 
@@ -85,7 +85,7 @@ class Dialga {
       i += 1;
     }
 
-    return result;
+    return toFormat(result, format);
   }
 
   toString() {
