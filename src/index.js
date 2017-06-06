@@ -6,7 +6,6 @@ const {
   simplify,
 } = require('./helper/interval');
 
-const timezones = moment.tz.names();
 const toDate = mDates => mDates.map(mDate => mDate.toDate());
 //const format = mDates => mDates.map(mDate => mDate.format());
 
@@ -24,21 +23,16 @@ function toFormat(data, format = 'date') {
 }
 
 class Dialga {
-  constructor(start, interval, timezone) {
-    // safeguard against user passing a moment object for the start date
-    // where that object's timezone does not match the input timezone (3rd arg)
-    if (start instanceof moment && start.tz() !== timezone) {
-      throw new Error('start date\'s timezone, does not match timezone input');
+  constructor(start, interval) {
+    if (!(start instanceof moment)) throw new Error('start must be a moment-timezone instance');
+    if (typeof start.tz !== 'function' || start.tz() == null) {
+      throw new Error('start must have a timezone defined');
     }
+    if (!start.isValid()) throw new Error('start date must be valid');
 
-    this.start = moment.tz(start, timezone);
+    this.start = start;
     this.interval = simplify(interval);
     this.avgInteval = getAvgInterval(this.interval);
-    this.timezone = timezone;
-
-    // TODO validate start format and interval and timezone
-    if (!this.start.isValid()) throw new Error('start date cannot be parsed by moment');
-    if (!timezones.includes(this.timezone)) throw new Error('timezone is invalid');
   }
 
   occurance(i, format) {
@@ -64,11 +58,14 @@ class Dialga {
 
   // get occurances between defined dates
   between(from, to, format) {
-    const mFrom = moment.tz(from, this.timezone);
-    const mTo = moment.tz(to, this.timezone);
+    // TODO - WRITE TESTS!
+    if (!(from instanceof moment)) throw new Error('from must be a moment-timezone instance');
+    if (!from.isValid()) throw new Error('from date must be valid');
+    if (!(to instanceof moment)) throw new Error('to must be a moment-timezone instance');
+    if (!to.isValid()) throw new Error('to date must be valid');
 
     // how far from rule start to between start ("from")
-    const distance = mFrom.toDate() - this.start.toDate();
+    const distance = from.toDate() - this.start.toDate();
     // calculate approximately how many intervals to use for the start position
     const initialMultiple = Math.floor(distance / this.avgInteval);
 
@@ -79,8 +76,8 @@ class Dialga {
       const date = this.__occurance(i);
 
       // NOTE: should include any date matching the "from", but exclude any matching the "to"
-      if (date.isBetween(mFrom, mTo, null, '[)')) result.push(date);
-      if (date.isAfter(mTo)) exit = true;
+      if (date.isBetween(from, to, null, '[)')) result.push(date);
+      if (date.isAfter(to)) exit = true;
 
       i += 1;
     }
@@ -93,7 +90,7 @@ class Dialga {
     // sort to ensure order is always the same, makes for simpler testing
     const intervalKeys = Object.keys(this.interval).sort();
     const interval = intervalKeys.map(k => `${k}${this.interval[k]}`).join(':');
-    return `START=${start};INTERVAL=${interval};TZ=${this.timezone};`;
+    return `START=${start};INTERVAL=${interval};TZ=${this.start.tz()};`;
   }
 }
 
@@ -110,7 +107,8 @@ function parse(str) {
     return Object.assign({}, result, { [value[0]]: Number(value[1]) });
   }, {});
 
-  return new Dialga(start, interval, tz);
+  const mStart = new moment.tz(start, tz);
+  return new Dialga(mStart, interval);
 }
 
 module.exports = { Dialga, toDate, parse };

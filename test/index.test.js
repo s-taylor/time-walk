@@ -1,46 +1,44 @@
 const test = require('ava');
 const sinon = require('sinon');
 const moment = require('moment-timezone');
+const momentjs = require('moment');
 const { Dialga, parse } = require('../src/index');
 
 /* eslint-disable new-cap */
 
 // constructor
-test('constructor - fails when invalid moment date format', (t) => {
+test('constructor - fails when start date is not a moment-timezone object', (t) => {
   const error = t.throws(
-    () => new Dialga('2000-02-31', { months: 1 }, 'UTC'), // 31st February is not valid date
+    () => new Dialga(new Date('2000-01-01'), { months: 1 }),
     Error
   );
 
-  t.is(error.message, 'start date cannot be parsed by moment');
+  t.is(error.message, 'start must be a moment-timezone instance');
 });
 
-test('constructor - fails when timezone invalid', (t) => {
+test('constructor - does not accept timezone agnostic moment', (t) => {
   const error = t.throws(
-    () => new Dialga('2000-01-01', { months: 1 }, 'Adventure/Time'),
+    () => new Dialga(new momentjs('2000-01-01'), { months: 1 }),
     Error
   );
 
-  t.is(error.message, 'timezone is invalid');
+  t.is(error.message, 'start must have a timezone defined');
 });
 
-test('constructor - fails when start timezone doesn\'t match input timezone', (t) => {
-  const start = new moment.tz('2000-01-01', 'Pacific/Auckland');
-
+test('constructor - fails with an invalid moment', (t) => {
   const error = t.throws(
-    () => new Dialga(start, { months: 1 }, 'Australia/Sydney'),
+    // 31st of Feb is invalid
+    () => new Dialga(new moment.tz('2000-02-31', 'UTC'), { months: 1 }),
     Error
   );
 
-  t.is(
-     error.message,
-    'start date\'s timezone, does not match timezone input'
-  );
+  t.is(error.message, 'start date must be valid');
 });
 
 test('constructor - uses simplify', (t) => {
   const interval = { months: 1, days: 7 };
-  const rule = new Dialga('2000-01-01', interval, 'UTC');
+  const start = new moment.tz('2000-01-01', 'UTC');
+  const rule = new Dialga(start, interval);
 
   const expected = { M: 1, d: 7 };
   t.deepEqual(expected, rule.interval);
@@ -50,7 +48,8 @@ test('constructor - uses simplify', (t) => {
 
 test('.occurance - 1 gives the first occurance (matches rule start)', (t) => {
   const TZ = 'Pacific/Auckland';
-  const rule = new Dialga('2000-03-01', { months: 1 }, TZ);
+  const start = new moment.tz('2000-03-01', TZ);
+  const rule = new Dialga(start, { months: 1 });
 
   const result = rule.occurance(1);
   t.deepEqual(result, new moment.tz('2000-03-01', TZ).toDate());
@@ -58,7 +57,8 @@ test('.occurance - 1 gives the first occurance (matches rule start)', (t) => {
 
 test('.occurance - 5 gives the fifth occurance', (t) => {
   const TZ = 'Pacific/Auckland';
-  const rule = new Dialga('2000-03-01', { months: 1 }, TZ);
+  const start = new moment.tz('2000-03-01', TZ);
+  const rule = new Dialga(start, { months: 1 });
 
   const result = rule.occurance(5);
   t.deepEqual(result, new moment.tz('2000-07-01', TZ).toDate());
@@ -66,7 +66,8 @@ test('.occurance - 5 gives the fifth occurance', (t) => {
 
 test('.occurance - allows specifying string output', (t) => {
   const TZ = 'Pacific/Auckland';
-  const rule = new Dialga('2000-03-01', { months: 1 }, TZ);
+  const start = new moment.tz('2000-03-01', TZ);
+  const rule = new Dialga(start, { months: 1 });
 
   const result = rule.occurance(1, 'string');
   t.deepEqual(result, new moment.tz('2000-03-01', TZ).toISOString());
@@ -74,7 +75,8 @@ test('.occurance - allows specifying string output', (t) => {
 
 test('.occurance - allows specifying moment output', (t) => {
   const TZ = 'Pacific/Auckland';
-  const rule = new Dialga('2000-03-01', { months: 1 }, TZ);
+  const start = new moment.tz('2000-03-01', TZ);
+  const rule = new Dialga(start, { months: 1 });
 
   const result = rule.occurance(1, 'moment');
   const expected = new moment.tz('2000-03-01', TZ);
@@ -85,7 +87,8 @@ test('.occurance - allows specifying moment output', (t) => {
 
 test('.occurance - throws error if i not a number', (t) => {
   const TZ = 'Pacific/Auckland';
-  const rule = new Dialga('2000-03-01', { months: 1 }, TZ);
+  const start = new moment.tz('2000-03-01', TZ);
+  const rule = new Dialga(start, { months: 1 });
 
   const error = t.throws(
     () => rule.occurance('1'),
@@ -102,7 +105,8 @@ test('.occurance - throws error if i not a number', (t) => {
 
 test('.first - gives correct number of occurences', (t) => {
   const TZ = 'UTC';
-  const rule = new Dialga('2000-01-01', {}, TZ);
+  const start = new moment.tz('2000-01-01', TZ);
+  const rule = new Dialga(start, {});
 
   const times = 8;
   const result = rule.first(times);
@@ -111,7 +115,8 @@ test('.first - gives correct number of occurences', (t) => {
 
 test('.first - uses the TZ specified', (t) => {
   const TZ = 'Pacific/Auckland';
-  const rule = new Dialga('2000-01-01', {}, TZ);
+  const start = new moment.tz('2000-01-01', TZ);
+  const rule = new Dialga(start, {});
 
   const times = 1;
   const result = rule.first(times);
@@ -122,7 +127,8 @@ test('.first - uses the TZ specified', (t) => {
 
 test('.first - monthly', (t) => {
   const TZ = 'UTC';
-  const rule = new Dialga('2000-03-01', { months: 1 }, TZ);
+  const start = new moment.tz('2000-03-01', TZ);
+  const rule = new Dialga(start, { months: 1 });
 
   const times = 5;
   const result = rule.first(times);
@@ -138,7 +144,8 @@ test('.first - monthly', (t) => {
 
 test('.first - weekly', (t) => {
   const TZ = 'UTC';
-  const rule = new Dialga('2015-06-15', { weeks: 1 }, TZ);
+  const start = new moment.tz('2015-06-15', TZ);
+  const rule = new Dialga(start, { weeks: 1 });
 
   const times = 5;
   const result = rule.first(times);
@@ -154,7 +161,8 @@ test('.first - weekly', (t) => {
 
 test('.first - daily', (t) => {
   const TZ = 'UTC';
-  const rule = new Dialga('2018-06-15', { days: 1 }, TZ);
+  const start = new moment.tz('2018-06-15', TZ);
+  const rule = new Dialga(start, { days: 1 });
 
   const times = 5;
   const result = rule.first(times);
@@ -170,7 +178,8 @@ test('.first - daily', (t) => {
 
 test('.occurance - allows specifying string output', (t) => {
   const TZ = 'UTC';
-  const rule = new Dialga('2018-06-15', { days: 1 }, TZ);
+  const start = new moment.tz('2018-06-15', TZ);
+  const rule = new Dialga(start, { days: 1 });
 
   const result = rule.first(1, 'string');
   const expected = [moment.tz('2018-06-15', TZ).toISOString()];
@@ -179,7 +188,8 @@ test('.occurance - allows specifying string output', (t) => {
 
 test('.occurance - allows specifying moment output', (t) => {
   const TZ = 'UTC';
-  const rule = new Dialga('2018-06-15', { days: 1 }, TZ);
+  const start = new moment.tz('2018-06-15', TZ);
+  const rule = new Dialga(start, { days: 1 });
 
   const result = rule.first(1, 'moment');
   const expected = [moment.tz('2018-06-15', TZ)];
@@ -193,9 +203,12 @@ test('.occurance - allows specifying moment output', (t) => {
 
 test('.between - daily', (t) => {
   const TZ = 'UTC';
-  const rule = new Dialga('2012-08-22', { days: 1 }, TZ);
+  const start = new moment.tz('2012-08-22', TZ);
+  const rule = new Dialga(start, { days: 1 });
 
-  const result = rule.between('2013-05-03', '2013-05-08');
+  const from = new moment.tz('2013-05-03', TZ);
+  const to = new moment.tz('2013-05-08', TZ);
+  const result = rule.between(from, to);
   const expected = [
     new moment.tz('2013-05-03', TZ).toDate(),
     new moment.tz('2013-05-04', TZ).toDate(),
@@ -209,9 +222,12 @@ test('.between - daily', (t) => {
 
 test('.between - daily where from and to do not match rule', (t) => {
   const TZ = 'UTC';
-  const rule = new Dialga('2012-08-22', { days: 1 }, TZ);
+  const start = new moment.tz('2012-08-22', TZ);
+  const rule = new Dialga(start, { days: 1 });
 
-  const result = rule.between('2013-05-02 20:00:00', '2013-05-07 15:00:00');
+  const from = new moment.tz('2013-05-02 20:00:00', TZ);
+  const to = new moment.tz('2013-05-07 15:00:00', TZ);
+  const result = rule.between(from, to);
   const expected = [
     new moment.tz('2013-05-03', TZ).toDate(),
     new moment.tz('2013-05-04', TZ).toDate(),
@@ -224,9 +240,12 @@ test('.between - daily where from and to do not match rule', (t) => {
 
 test('.between - allow specifying string output', (t) => {
   const TZ = 'UTC';
-  const rule = new Dialga('2012-08-22', { days: 1 }, TZ);
+  const start = new moment.tz('2012-08-22', TZ);
+  const rule = new Dialga(start, { days: 1 });
 
-  const result = rule.between('2013-05-03', '2013-05-04', 'string');
+  const from = new moment.tz('2013-05-03', TZ);
+  const to = new moment.tz('2013-05-04', TZ);
+  const result = rule.between(from, to, 'string');
   const expected = [new moment.tz('2013-05-03', TZ).toISOString()];
 
   t.deepEqual(result, expected);
@@ -234,9 +253,12 @@ test('.between - allow specifying string output', (t) => {
 
 test('.between - allow specifying moment output', (t) => {
   const TZ = 'UTC';
-  const rule = new Dialga('2012-08-22', { days: 1 }, TZ);
+  const start = new moment.tz('2012-08-22', TZ);
+  const rule = new Dialga(start, { days: 1 });
 
-  const result = rule.between('2013-05-03', '2013-05-04', 'moment');
+  const from = new moment.tz('2013-05-03', TZ);
+  const to = new moment.tz('2013-05-04', TZ);
+  const result = rule.between(from, to, 'moment');
   const expected = [new moment.tz('2013-05-03', TZ)];
 
   t.is(result.length, 1);
@@ -246,12 +268,15 @@ test('.between - allow specifying moment output', (t) => {
 
 test('.between - daylight savings test', (t) => {
   const TZ = 'Australia/Sydney';
+  const start = new moment.tz('2017-09-30 00:00:00', TZ);
   // Daylight savings changes on 1st of October 2017
-  const rule = new Dialga('2017-09-30 00:00:00', { days: 1 }, TZ);
+  const rule = new Dialga(start, { days: 1 });
 
   // Pre-Daylight Savings
   // 12pm (Midnight) in Sydney === 2pm UTC
-  const result = rule.between('2017-09-30', '2017-10-04');
+  const from = new moment.tz('2017-09-30', TZ);
+  const to = new moment.tz('2017-10-04', TZ);
+  const result = rule.between(from, to);
   const expected = [
     new Date('2017-09-29T14:00:00.000Z'),
     new Date('2017-09-30T14:00:00.000Z'),
@@ -266,9 +291,12 @@ test('.between - daylight savings test', (t) => {
 // by large differences between rule "start", and between "from"
 test('.between - where from date is far in the future', (t) => {
   const TZ = 'UTC';
-  const rule = new Dialga('2017-05-03', { days: 7 }, TZ); // Wednesday 3rd May 2017 UTC
+  const start = new moment.tz('2017-05-03', TZ);
+  const rule = new Dialga(start, { days: 7 }); // Wednesday 3rd May 2017 UTC
 
-  const result = rule.between('2117-05-05', '2117-06-02');
+  const from = new moment.tz('2117-05-05', TZ);
+  const to = new moment.tz('2117-06-02', TZ);
+  const result = rule.between(from, to);
   const expected = [
     moment.tz('2117-05-05', TZ).toDate(),
     moment.tz('2117-05-12', TZ).toDate(),
@@ -280,10 +308,13 @@ test('.between - where from date is far in the future', (t) => {
 
 test('.between - performance test', (t) => {
   const TZ = 'UTC';
-  const rule = new Dialga('2017-05-03', { days: 7 }, TZ); // Wednesday 3rd May 2017 UTC
+  const start = new moment.tz('2017-05-03', TZ);
+  const rule = new Dialga(start, { days: 7 }); // Wednesday 3rd May 2017 UTC
 
   const spy = sinon.spy(rule, '__occurance');
-  rule.between('2117-05-05', '2117-06-02');
+  const from = new moment.tz('2117-05-05', TZ);
+  const to = new moment.tz('2117-06-02', TZ);
+  rule.between(from, to);
 
   // '2117-05-05', '2117-05-12', '2117-05-19', '2117-05-26';
   const expectedLength = 4;
@@ -300,7 +331,9 @@ test('.between - performance test', (t) => {
 // .toString tests
 
 test('.toString - must return stringified rule', (t) => {
-  const rule = new Dialga('2000-01-01', { days: 1, years: 3 }, 'Australia/Sydney');
+  const TZ = 'Australia/Sydney';
+  const start = new moment.tz('2000-01-01', TZ);
+  const rule = new Dialga(start, { days: 1, years: 3 });
   const result = rule.toString();
 
   const expected = 'START=1999-12-31T13:00:00.000Z;INTERVAL=d1:y3;TZ=Australia/Sydney;';
@@ -313,9 +346,11 @@ test('.parse - must return expected Dialga object', (t) => {
   const ruleStr = 'START=1999-12-31T13:00:00.000Z;INTERVAL=d1:y3;TZ=Australia/Sydney;';
   const result = parse(ruleStr);
 
-  t.deepEqual(result.start.toDate(), moment.tz('2000-01-01', 'Australia/Sydney').toDate());
+  const expectedStart = moment.tz('2000-01-01', 'Australia/Sydney');
+  t.true(result.start instanceof moment);
+  t.true(result.start.isSame(expectedStart));
+
   t.deepEqual(result.interval, { d: 1, y: 3 });
-  t.is(result.timezone, 'Australia/Sydney');
 });
 
 /* eslint-disable new-cap */
