@@ -126,6 +126,8 @@ Send me a pull request! Please don't send me a pull request without tests though
 * Allow setting a default output type
 * Add setter method (including setting default output type)
 * Test between from and to validations
+* Test interval is required (in constructor)
+* Changelog
 * finalise readme
 * publishing to npm
 
