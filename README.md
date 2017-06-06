@@ -123,8 +123,9 @@ Send me a pull request! Please don't send me a pull request without tests though
 
 ## What still needs doing
 
-* Allow setting a default output type
 * add getter methods (including default output type)
+* Allow setting a default output type
+* Test between from and to validations
 * finalise readme
 * publishing to npm
 
