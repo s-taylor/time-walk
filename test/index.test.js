@@ -7,6 +7,7 @@ const { Dialga, parse } = require('../src/index');
 /* eslint-disable new-cap */
 
 // constructor
+
 test('constructor - fails when start date is not a moment-timezone object', (t) => {
   const error = t.throws(
     () => new Dialga(new Date('2000-01-01'), { months: 1 }),
@@ -42,6 +43,34 @@ test('constructor - uses simplify', (t) => {
 
   const expected = { M: 1, d: 7 };
   t.deepEqual(expected, rule.interval);
+});
+
+// getter tests
+
+test('.getStart - returns start date', (t) => {
+  const TZ = 'Pacific/Auckland';
+  const start = new moment.tz('2000-03-01', TZ);
+  const rule = new Dialga(start, { months: 1 });
+
+  t.deepEqual(rule.getStart(), start);
+});
+
+test('.getInterval - returns interval', (t) => {
+  const TZ = 'Pacific/Auckland';
+  const start = new moment.tz('2000-03-01', TZ);
+  const interval = { d: 3, ms: 1 };
+  const rule = new Dialga(start, interval);
+
+  t.deepEqual(rule.getInterval(), interval);
+});
+
+test('.getTimezone - returns timezone from start date', (t) => {
+  const TZ = 'Pacific/Auckland';
+  const start = new moment.tz('2000-03-01', TZ);
+  const interval = { d: 3, ms: 1 };
+  const rule = new Dialga(start, interval);
+
+  t.deepEqual(rule.getTimezone(), TZ);
 });
 
 // .occurance tests
@@ -99,6 +128,16 @@ test('.occurance - throws error if i not a number', (t) => {
     error.message,
     'first argument must be a number'
   );
+});
+
+
+test('.occurance - 1 gives the first occurance (matches rule start)', (t) => {
+  const TZ = 'Pacific/Auckland';
+  const start = new moment.tz('2000-03-01', TZ);
+  const rule = new Dialga(start, { months: 1 });
+
+  const result = rule.occurance(1);
+  t.deepEqual(result, new moment.tz('2000-03-01', TZ).toDate());
 });
 
 // .first tests

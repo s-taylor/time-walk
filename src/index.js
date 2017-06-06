@@ -29,11 +29,16 @@ class Dialga {
       throw new Error('start must have a timezone defined');
     }
     if (!start.isValid()) throw new Error('start date must be valid');
+    if (typeof interval !== 'object') throw new Error('interval is required');
 
     this.start = start;
     this.interval = simplify(interval);
     this.avgInteval = getAvgInterval(this.interval);
   }
+
+  getStart() { return this.start.clone(); }
+  getInterval() { return Object.assign({}, this.interval); }
+  getTimezone() { return this.start.tz(); }
 
   occurance(i, format) {
     if (typeof i !== 'number') throw new Error('first argument must be a number');
