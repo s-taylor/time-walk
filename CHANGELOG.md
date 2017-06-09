@@ -2,6 +2,10 @@
 
 ## [Unreleased][]
 
+### Changed
+- Fix banner image in npm
+- Add changelog link to readme
+
 ## [1.0.0][] - 2017-06-09
 
 - Initial release of Time Walk
