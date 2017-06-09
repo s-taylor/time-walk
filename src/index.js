@@ -63,7 +63,6 @@ class TimeWalk {
 
   // get occurances between defined dates
   between(from, to, format) {
-    // TODO - WRITE TESTS!
     if (!(moment.isMoment(from))) throw new Error('from must be a moment-timezone instance');
     if (!from.isValid()) throw new Error('from date must be valid');
     if (!(moment.isMoment(to))) throw new Error('to must be a moment-timezone instance');
