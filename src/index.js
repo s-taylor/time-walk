@@ -24,7 +24,7 @@ function toFormat(data, format = 'date') {
 
 class TimeWalk {
   constructor(start, interval) {
-    if (!(start instanceof moment)) throw new Error('start must be a moment-timezone instance');
+    if (!(moment.isMoment(start))) throw new Error('start must be a moment-timezone instance');
     if (typeof start.tz !== 'function' || start.tz() == null) {
       throw new Error('start must have a timezone defined');
     }
