@@ -1,6 +1,6 @@
 # Time Walk
 
-![time-walk](./docs/time-walk.jpg)
+![time-walk](https://raw.githubusercontent.com/s-taylor/time-walk/master/docs/time-walk.jpg)
 
 ## What is this?
 
