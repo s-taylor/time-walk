@@ -42,95 +42,92 @@ The reason for this, is in my mind this is two rules, not one. Why not just crea
 
 ## How do I use it?
 
-**WARNING: this is a work in progress, not yet on npm**
-
 ### Syntax
 
 #### Creating a Rule
 
 Arguments for a `new` rule are...
-* a **start date** for the rule (anything moment can parse, see [moment docs here](https://momentjs.com/docs/#/parsing/))
-* an **interval**, how far apart is each occurance (must be a value moment can understand, see [moment docs here](https://momentjs.com/docs/#/manipulating/add/)
-* a **timezone**, must be valid as per moment-timezone, if you need a [list](https://runkit.com/nizmox/592e51e95b3c9b00122cbf78).
+* **start** a `moment-timezone` object where the date and timezone align to the first occurance you want the rule to generate. The timezone specified in the `moment-timezone` object will be used to generate all occurrences (dates) by `Dialga`. See [moment-timezone](https://momentjs.com/timezone/) for more details.
+* an **interval**, starting from the start date, how far apart do we want occurrence (date) to be (must be in a format `moment.js` understands, see [moment docs here](https://momentjs.com/docs/#/manipulating/add/).
 
-**WARNING:** You need to be somewhat careful what **start date** argument you give to Dialga. You should either pass in a date that is timezone agnostic (i.e. date string) or if the date has a timezone, this should match the timezone specified.
 
-For example, these are OK:-
+For example, if I want a rule that recurs on the 1st of every month according to the time in Sydney, Australia, and I wan't my rule to start from next month (July 2017), I would input...
 ```js
-const start = new moment.tz('2000-01-01', 'Pacific/Auckland');
-const rule = new Dialga(start, { months: 1 }, 'Pacific/Auckland');
-```
-OR
-```js
-const rule = new Dialga('2000-01-01', { months: 1 }, 'Pacific/Auckland');
+const { Dialga } = require('Dialga');
+
+const start = new moment.tz('2017-07-01', 'Australia/Sydney');
+const rule = new Dialga(start, { months: 1 });
 ```
 
-This will error, because the zones don't match:-
+OR if I want a rule that recurs every second Monday (fortnightly), starting in July 2017 in UTC.
 ```js
-const start = new moment.tz('2000-01-01', 'Australia/Sydney');
-const rule = new Dialga(start, { months: 1 }, 'Pacific/Auckland');
-```
+const { Dialga } = require('Dialga');
 
-But using a `Date` may cause unexpected outcomes:-
+const start = new moment.tz('2017-07-03', 'UTC');
+const rule = new Dialga(start, { weeks: 2 });
+```
+Note: the 3rd of July is the first Monday in July, so this needs to be the start date.
+
+#### Getting (n)th Occurance
+
+If I want to get the 2nd occurance of my rule...
 ```js
-const TZ = 'Pacific/Auckland';
-const start = new Date(2000, 0, 1);
-const rule = new Dialga(start, { months: 1 }, TZ);
+const start = new moment.tz('2017-07-01', 'Australia/Sydney');
+const rule = new Dialga(start, { months: 1 });
+
+const result = rule.occurance(2) // result === 2017-08-01 in Australia/Sydney Time
 ```
-This is because when you use `new Date`, you're getting the date you specified in the timezone of your machine / server. And not the TZ value you've specified. It'll be fine if your machine / server's timezone === `'Pacific/Auckland'`, but wrong if it's not. I may in future disable js dates as an input to avoid confusion.
+Note: The start date **counts** as the first occurence.
 
+#### Getting the first (x) Occurances
 
-#### Getting nth Occurance
-
-TODO
-
-#### Getting Occurances
-
-Arguments for `.first` is simply how many occurances from the rule _start_ (inclusive) you want to generate.
-
+If I want to get the first three ooccurances of my rule...
 ```js
-// get the first three occurances (an array) for the rule as a moment objects
-const occurances = rule.first(3);
+const start = new moment.tz('2017-07-01', 'Australia/Sydney');
+const rule = new Dialga(start, { months: 1 });
 
-// this should give the dates 01-Jan-2000, 01-Feb-2000, 01-Mar-2000
+const result = rule.first(3)
+// result === [2017-07-01, 2017-08-01, 2017-09-01] in Australia/Sydney Time
 ```
+Note: The start date **counts** as the first occurence.
 
 #### Getting Occurances within a Range
 
-Arguments for `.between` are...
-* a start date (anything moment can parse, again recommend timezone agnostic format)
-* an end date (anything moment can parse, again recommend timezone agnostic format)
+If I want to get ALL occurences for my rule that exist between two dates.
+For example, to get all occurences in July I would do...
 
 ```js
-// get occurances between two given dates (results an array in moment js format)
-// note: dates don't need to match a valid occurances
-const occurances = rule.betwen([2000, 0, 8], [2000, 2, 3]);
+const start = new moment.tz('2017-07-01', 'Australia/Sydney');
+const rule = new Dialga(start, { weeks: 1 });
 
-// this should give the dates 01-Feb-2000, 01-Mar-2000
+const from = new moment.tz('2017-07-01', 'Australia/Sydney');
+const to = new moment.tz('2017-08-01', 'Australia/Sydney');
+const result = rule.between(from, to);
+
+// result === [2017-07-01, 2017-07-08, 2017-07-15, 2017-07-22, 2017-07-29]
+// in Australia/Sydney Time
 ```
 
 ## Why am I doing this?
 
-At present I'm doing this purely as a personal challenge at this point, it's an interesting problem to solve but as I'm not doing this for work, and thus not spending work time on it, set expecations accordingly.
-
-## Can I use this?
-
-Sure! Should I use this? Probably not. This is very much a work in progress at this stage to see if it's feasible, hence the commented out code and thin test suite. Once production ready I'll make it known.
+At present I'm doing this purely as a personal challenge at this point, it's an interesting problem to solve but as I'm not doing this for work, and thus not spending work time on it, set expectations accordingly.
 
 ## How can I help?
 
 Send me a pull request! Please don't send me a pull request without tests though.
 
-## What still needs doing
+## What still needs doing...
 
 * Allow setting a default output type
 * Add setter method (including setting default output type)
 * Test between from and to validations
 * Test interval is required (in constructor)
+* Limit how many occurances get returned to 100?
 * Changelog
 * finalise readme
 * publishing to npm
 
+* Add `.fromString` to create a rule with a date in string format + timezone.
 * remove use of decimals in calcs so more accurate
 * compile to ES2015
 * Use CircleCI
