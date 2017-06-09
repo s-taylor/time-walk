@@ -17,7 +17,7 @@ There are a number of potential use cases for this module, two better examples I
 
 ## Try it out
 
-[See runkit demo here](https://runkit.com/nizmox/593a35fef24baf0011dc7e20)
+[See runkit demo here](https://runkit.com/nizmox/time-walk-demo)
 
 ## What's different from rrule?
 
