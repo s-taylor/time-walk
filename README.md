@@ -148,6 +148,7 @@ Send me a pull request! Please don't send me a pull request without tests though
 * Add example code on runkit
 * Update readme with some use cases for the module
 * Document specifying output format
+* Document toString and parsing functions
 * Changelog
 * finalise readme
 * publishing to npm
