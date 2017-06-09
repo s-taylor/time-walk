@@ -17,7 +17,7 @@ There are a number of potential use cases for this module, two better examples I
 
 ## Try it out
 
-[See runkit demo here](https://runkit.com/nizmox/593a29aa56ebfd0012d1635e)
+[See runkit demo here](https://runkit.com/nizmox/593a35fef24baf0011dc7e20)
 
 ## What's different from rrule?
 
