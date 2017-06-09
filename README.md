@@ -15,6 +15,10 @@ There are a number of potential use cases for this module, two better examples I
 * Generating calendar appointments based on a defined pattern (rule).
 * Implementing a scheduled jobs service in your app, where timezone support is important. Cron doesn't support fortnightly intervals or multi-timezone.
 
+## Try it out
+
+[See runkit demo here](https://runkit.com/nizmox/593a29aa56ebfd0012d1635e)
+
 ## What's different from rrule?
 
 ### Timezone Support
