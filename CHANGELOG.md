@@ -2,4 +2,4 @@
 
 ## [Unreleased][]
 
-- Initial release of Dialga
+- Initial release of Time Walk

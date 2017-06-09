@@ -22,7 +22,7 @@ function toFormat(data, format = 'date') {
   return formatter(data);
 }
 
-class Dialga {
+class TimeWalk {
   constructor(start, interval) {
     if (!(start instanceof moment)) throw new Error('start must be a moment-timezone instance');
     if (typeof start.tz !== 'function' || start.tz() == null) {
@@ -113,7 +113,7 @@ function parse(str) {
   }, {});
 
   const mStart = new moment.tz(start, tz);
-  return new Dialga(mStart, interval);
+  return new TimeWalk(mStart, interval);
 }
 
-module.exports = { Dialga, toDate, parse };
+module.exports = { TimeWalk, toDate, parse };

@@ -2,7 +2,7 @@ const test = require('ava');
 const sinon = require('sinon');
 const moment = require('moment-timezone');
 const momentjs = require('moment');
-const { Dialga, parse } = require('../src/index');
+const { TimeWalk, parse } = require('../src/index');
 
 /* eslint-disable new-cap */
 
@@ -10,7 +10,7 @@ const { Dialga, parse } = require('../src/index');
 
 test('constructor - fails when start date is not a moment-timezone object', (t) => {
   const error = t.throws(
-    () => new Dialga(new Date('2000-01-01'), { months: 1 }),
+    () => new TimeWalk(new Date('2000-01-01'), { months: 1 }),
     Error
   );
 
@@ -19,7 +19,7 @@ test('constructor - fails when start date is not a moment-timezone object', (t) 
 
 test('constructor - does not accept timezone agnostic moment', (t) => {
   const error = t.throws(
-    () => new Dialga(new momentjs('2000-01-01'), { months: 1 }),
+    () => new TimeWalk(new momentjs('2000-01-01'), { months: 1 }),
     Error
   );
 
@@ -29,7 +29,7 @@ test('constructor - does not accept timezone agnostic moment', (t) => {
 test('constructor - fails with an invalid moment', (t) => {
   const error = t.throws(
     // 31st of Feb is invalid
-    () => new Dialga(new moment.tz('2000-02-31', 'UTC'), { months: 1 }),
+    () => new TimeWalk(new moment.tz('2000-02-31', 'UTC'), { months: 1 }),
     Error
   );
 
@@ -39,7 +39,7 @@ test('constructor - fails with an invalid moment', (t) => {
 test('constructor - uses simplify', (t) => {
   const interval = { months: 1, days: 7 };
   const start = new moment.tz('2000-01-01', 'UTC');
-  const rule = new Dialga(start, interval);
+  const rule = new TimeWalk(start, interval);
 
   const expected = { M: 1, d: 7 };
   t.deepEqual(expected, rule.interval);
@@ -50,7 +50,7 @@ test('constructor - uses simplify', (t) => {
 test('.getStart - returns start date', (t) => {
   const TZ = 'Pacific/Auckland';
   const start = new moment.tz('2000-03-01', TZ);
-  const rule = new Dialga(start, { months: 1 });
+  const rule = new TimeWalk(start, { months: 1 });
 
   t.deepEqual(rule.getStart(), start);
 });
@@ -59,7 +59,7 @@ test('.getInterval - returns interval', (t) => {
   const TZ = 'Pacific/Auckland';
   const start = new moment.tz('2000-03-01', TZ);
   const interval = { d: 3, ms: 1 };
-  const rule = new Dialga(start, interval);
+  const rule = new TimeWalk(start, interval);
 
   t.deepEqual(rule.getInterval(), interval);
 });
@@ -68,7 +68,7 @@ test('.getTimezone - returns timezone from start date', (t) => {
   const TZ = 'Pacific/Auckland';
   const start = new moment.tz('2000-03-01', TZ);
   const interval = { d: 3, ms: 1 };
-  const rule = new Dialga(start, interval);
+  const rule = new TimeWalk(start, interval);
 
   t.deepEqual(rule.getTimezone(), TZ);
 });
@@ -78,7 +78,7 @@ test('.getTimezone - returns timezone from start date', (t) => {
 test('.occurance - 1 gives the first occurance (matches rule start)', (t) => {
   const TZ = 'Pacific/Auckland';
   const start = new moment.tz('2000-03-01', TZ);
-  const rule = new Dialga(start, { months: 1 });
+  const rule = new TimeWalk(start, { months: 1 });
 
   const result = rule.occurance(1);
   t.deepEqual(result, new moment.tz('2000-03-01', TZ).toDate());
@@ -87,7 +87,7 @@ test('.occurance - 1 gives the first occurance (matches rule start)', (t) => {
 test('.occurance - 5 gives the fifth occurance', (t) => {
   const TZ = 'Pacific/Auckland';
   const start = new moment.tz('2000-03-01', TZ);
-  const rule = new Dialga(start, { months: 1 });
+  const rule = new TimeWalk(start, { months: 1 });
 
   const result = rule.occurance(5);
   t.deepEqual(result, new moment.tz('2000-07-01', TZ).toDate());
@@ -96,7 +96,7 @@ test('.occurance - 5 gives the fifth occurance', (t) => {
 test('.occurance - allows specifying string output', (t) => {
   const TZ = 'Pacific/Auckland';
   const start = new moment.tz('2000-03-01', TZ);
-  const rule = new Dialga(start, { months: 1 });
+  const rule = new TimeWalk(start, { months: 1 });
 
   const result = rule.occurance(1, 'string');
   t.deepEqual(result, new moment.tz('2000-03-01', TZ).toISOString());
@@ -105,7 +105,7 @@ test('.occurance - allows specifying string output', (t) => {
 test('.occurance - allows specifying moment output', (t) => {
   const TZ = 'Pacific/Auckland';
   const start = new moment.tz('2000-03-01', TZ);
-  const rule = new Dialga(start, { months: 1 });
+  const rule = new TimeWalk(start, { months: 1 });
 
   const result = rule.occurance(1, 'moment');
   const expected = new moment.tz('2000-03-01', TZ);
@@ -117,7 +117,7 @@ test('.occurance - allows specifying moment output', (t) => {
 test('.occurance - throws error if i not a number', (t) => {
   const TZ = 'Pacific/Auckland';
   const start = new moment.tz('2000-03-01', TZ);
-  const rule = new Dialga(start, { months: 1 });
+  const rule = new TimeWalk(start, { months: 1 });
 
   const error = t.throws(
     () => rule.occurance('1'),
@@ -134,7 +134,7 @@ test('.occurance - throws error if i not a number', (t) => {
 test('.occurance - 1 gives the first occurance (matches rule start)', (t) => {
   const TZ = 'Pacific/Auckland';
   const start = new moment.tz('2000-03-01', TZ);
-  const rule = new Dialga(start, { months: 1 });
+  const rule = new TimeWalk(start, { months: 1 });
 
   const result = rule.occurance(1);
   t.deepEqual(result, new moment.tz('2000-03-01', TZ).toDate());
@@ -145,7 +145,7 @@ test('.occurance - 1 gives the first occurance (matches rule start)', (t) => {
 test('.first - gives correct number of occurences', (t) => {
   const TZ = 'UTC';
   const start = new moment.tz('2000-01-01', TZ);
-  const rule = new Dialga(start, {});
+  const rule = new TimeWalk(start, {});
 
   const times = 8;
   const result = rule.first(times);
@@ -155,7 +155,7 @@ test('.first - gives correct number of occurences', (t) => {
 test('.first - uses the TZ specified', (t) => {
   const TZ = 'Pacific/Auckland';
   const start = new moment.tz('2000-01-01', TZ);
-  const rule = new Dialga(start, {});
+  const rule = new TimeWalk(start, {});
 
   const times = 1;
   const result = rule.first(times);
@@ -167,7 +167,7 @@ test('.first - uses the TZ specified', (t) => {
 test('.first - monthly', (t) => {
   const TZ = 'UTC';
   const start = new moment.tz('2000-03-01', TZ);
-  const rule = new Dialga(start, { months: 1 });
+  const rule = new TimeWalk(start, { months: 1 });
 
   const times = 5;
   const result = rule.first(times);
@@ -184,7 +184,7 @@ test('.first - monthly', (t) => {
 test('.first - weekly', (t) => {
   const TZ = 'UTC';
   const start = new moment.tz('2015-06-15', TZ);
-  const rule = new Dialga(start, { weeks: 1 });
+  const rule = new TimeWalk(start, { weeks: 1 });
 
   const times = 5;
   const result = rule.first(times);
@@ -201,7 +201,7 @@ test('.first - weekly', (t) => {
 test('.first - daily', (t) => {
   const TZ = 'UTC';
   const start = new moment.tz('2018-06-15', TZ);
-  const rule = new Dialga(start, { days: 1 });
+  const rule = new TimeWalk(start, { days: 1 });
 
   const times = 5;
   const result = rule.first(times);
@@ -218,7 +218,7 @@ test('.first - daily', (t) => {
 test('.occurance - allows specifying string output', (t) => {
   const TZ = 'UTC';
   const start = new moment.tz('2018-06-15', TZ);
-  const rule = new Dialga(start, { days: 1 });
+  const rule = new TimeWalk(start, { days: 1 });
 
   const result = rule.first(1, 'string');
   const expected = [moment.tz('2018-06-15', TZ).toISOString()];
@@ -228,7 +228,7 @@ test('.occurance - allows specifying string output', (t) => {
 test('.occurance - allows specifying moment output', (t) => {
   const TZ = 'UTC';
   const start = new moment.tz('2018-06-15', TZ);
-  const rule = new Dialga(start, { days: 1 });
+  const rule = new TimeWalk(start, { days: 1 });
 
   const result = rule.first(1, 'moment');
   const expected = [moment.tz('2018-06-15', TZ)];
@@ -243,7 +243,7 @@ test('.occurance - allows specifying moment output', (t) => {
 test('.between - daily', (t) => {
   const TZ = 'UTC';
   const start = new moment.tz('2012-08-22', TZ);
-  const rule = new Dialga(start, { days: 1 });
+  const rule = new TimeWalk(start, { days: 1 });
 
   const from = new moment.tz('2013-05-03', TZ);
   const to = new moment.tz('2013-05-08', TZ);
@@ -262,7 +262,7 @@ test('.between - daily', (t) => {
 test('.between - daily where from and to do not match rule', (t) => {
   const TZ = 'UTC';
   const start = new moment.tz('2012-08-22', TZ);
-  const rule = new Dialga(start, { days: 1 });
+  const rule = new TimeWalk(start, { days: 1 });
 
   const from = new moment.tz('2013-05-02 20:00:00', TZ);
   const to = new moment.tz('2013-05-07 15:00:00', TZ);
@@ -280,7 +280,7 @@ test('.between - daily where from and to do not match rule', (t) => {
 test('.between - allow specifying string output', (t) => {
   const TZ = 'UTC';
   const start = new moment.tz('2012-08-22', TZ);
-  const rule = new Dialga(start, { days: 1 });
+  const rule = new TimeWalk(start, { days: 1 });
 
   const from = new moment.tz('2013-05-03', TZ);
   const to = new moment.tz('2013-05-04', TZ);
@@ -293,7 +293,7 @@ test('.between - allow specifying string output', (t) => {
 test('.between - allow specifying moment output', (t) => {
   const TZ = 'UTC';
   const start = new moment.tz('2012-08-22', TZ);
-  const rule = new Dialga(start, { days: 1 });
+  const rule = new TimeWalk(start, { days: 1 });
 
   const from = new moment.tz('2013-05-03', TZ);
   const to = new moment.tz('2013-05-04', TZ);
@@ -309,7 +309,7 @@ test('.between - daylight savings test', (t) => {
   const TZ = 'Australia/Sydney';
   const start = new moment.tz('2017-09-30 00:00:00', TZ);
   // Daylight savings changes on 1st of October 2017
-  const rule = new Dialga(start, { days: 1 });
+  const rule = new TimeWalk(start, { days: 1 });
 
   // Pre-Daylight Savings
   // 12pm (Midnight) in Sydney === 2pm UTC
@@ -331,7 +331,7 @@ test('.between - daylight savings test', (t) => {
 test('.between - where from date is far in the future', (t) => {
   const TZ = 'UTC';
   const start = new moment.tz('2017-05-03', TZ);
-  const rule = new Dialga(start, { days: 7 }); // Wednesday 3rd May 2017 UTC
+  const rule = new TimeWalk(start, { days: 7 }); // Wednesday 3rd May 2017 UTC
 
   const from = new moment.tz('2117-05-05', TZ);
   const to = new moment.tz('2117-06-02', TZ);
@@ -348,7 +348,7 @@ test('.between - where from date is far in the future', (t) => {
 test('.between - performance test', (t) => {
   const TZ = 'UTC';
   const start = new moment.tz('2017-05-03', TZ);
-  const rule = new Dialga(start, { days: 7 }); // Wednesday 3rd May 2017 UTC
+  const rule = new TimeWalk(start, { days: 7 }); // Wednesday 3rd May 2017 UTC
 
   const spy = sinon.spy(rule, '__occurance');
   const from = new moment.tz('2117-05-05', TZ);
@@ -372,7 +372,7 @@ test('.between - performance test', (t) => {
 test('.toString - must return stringified rule', (t) => {
   const TZ = 'Australia/Sydney';
   const start = new moment.tz('2000-01-01', TZ);
-  const rule = new Dialga(start, { days: 1, years: 3 });
+  const rule = new TimeWalk(start, { days: 1, years: 3 });
   const result = rule.toString();
 
   const expected = 'START=1999-12-31T13:00:00.000Z;INTERVAL=d1:y3;TZ=Australia/Sydney;';
@@ -381,7 +381,7 @@ test('.toString - must return stringified rule', (t) => {
 
 // .parse tests
 
-test('.parse - must return expected Dialga object', (t) => {
+test('.parse - must return expected TimeWalk object', (t) => {
   const ruleStr = 'START=1999-12-31T13:00:00.000Z;INTERVAL=d1:y3;TZ=Australia/Sydney;';
   const result = parse(ruleStr);
 

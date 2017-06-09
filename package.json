@@ -1,5 +1,5 @@
 {
-  "name": "dialga",
+  "name": "time-walk",
   "version": "0.0.0",
   "description": "a simple date recurrance rule library",
   "main": "src/index.js",
