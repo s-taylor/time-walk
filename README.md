@@ -58,6 +58,7 @@ Arguments for a `new` rule are...
 
 For example, if I want a rule that recurs on the 1st of every month according to the time in Sydney, Australia, and I wan't my rule to start from next month (July 2017), I would input...
 ```js
+const moment = require('moment-timezone');
 const { TimeWalk } = require('time-walk');
 
 const start = new moment.tz('2017-07-01', 'Australia/Sydney');
@@ -66,6 +67,7 @@ const rule = new TimeWalk(start, { months: 1 });
 
 OR if I want a rule that recurs every second Monday (fortnightly), starting in July 2017 in UTC.
 ```js
+const moment = require('moment-timezone');
 const { TimeWalk } = require('TimeWalk');
 
 const start = new moment.tz('2017-07-03', 'UTC');
