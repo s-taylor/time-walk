@@ -1,6 +1,12 @@
 # Changelog
 
 ## [Unreleased][]
+### Added
+- Use cases to readme
+- Runkit demo link in readme
+
+### Changed
+- Use .isMoment() instead of instanceof in constructor validation
 
 ## [1.0.1][] - 2017-06-09
 
