@@ -64,9 +64,9 @@ class TimeWalk {
   // get occurances between defined dates
   between(from, to, format) {
     // TODO - WRITE TESTS!
-    if (!(from instanceof moment)) throw new Error('from must be a moment-timezone instance');
+    if (!(moment.isMoment(from))) throw new Error('from must be a moment-timezone instance');
     if (!from.isValid()) throw new Error('from date must be valid');
-    if (!(to instanceof moment)) throw new Error('to must be a moment-timezone instance');
+    if (!(moment.isMoment(to))) throw new Error('to must be a moment-timezone instance');
     if (!to.isValid()) throw new Error('to date must be valid');
 
     // how far from rule start to between start ("from")
