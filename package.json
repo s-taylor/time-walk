@@ -4,7 +4,8 @@
   "description": "a simple date recurrance rule library",
   "main": "src/index.js",
   "scripts": {
-    "test": "NODE_ENV=test ava"
+    "test": "NODE_ENV=test ava",
+    "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
   },
   "author": "",
   "license": "MIT",
@@ -14,10 +15,12 @@
   },
   "devDependencies": {
     "ava": "^0.19.1",
+    "changelog-verify": "^1.0.4",
     "eslint": "^3.19.0",
     "eslint-config-staylor": "^1.1.0",
     "moment": "^2.18.1",
-    "sinon": "^2.3.2"
+    "sinon": "^2.3.2",
+    "version-changelog": "^2.1.0"
   },
   "ava": {
     "verbose": true
