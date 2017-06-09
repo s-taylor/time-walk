@@ -121,6 +121,10 @@ At present I'm doing this purely as a personal challenge at this point, it's an 
 
 Send me a pull request! Please don't send me a pull request without tests though.
 
+## What's changed?
+
+[View Changelog](https://github.com/s-taylor/time-walk/blob/master/CHANGELOG.md)
+
 ## What still needs doing...
 
 * Allow setting a default output type
