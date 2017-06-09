@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased][]
+### Changed
+- Use .isMoment() instead of instanceof in .between() validation
+- Update runkit demo link in readme
 
 ## [1.0.2][] - 2017-06-09
 ### Added
