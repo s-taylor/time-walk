@@ -134,6 +134,9 @@ Send me a pull request! Please don't send me a pull request without tests though
 * Test between from and to validations
 * Test interval is required (in constructor)
 * Limit how many occurances get returned to 100?
+* Add example code on runkit
+* Update readme with some use cases for the module
+* Document specifying output format
 * Changelog
 * finalise readme
 * publishing to npm
