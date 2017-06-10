@@ -4,9 +4,10 @@
 
 ## What is this?
 
-**Time Walk** is a simple library for generating date recurrance rules. I was inspired to write this after having previously used **Rrule** for a work project and found **Rrule** to have it's quirks.
+**Time Walk** is a simple library for generating date recurrance rules. I was inspired to write this after having previously used **Rrule** for a work project and found **Rrule** to have it's quirks.  This module heavily leverages the [moment-timezone](https://momentjs.com/timezone/) library and aims to keep this library as lightweight as possible.
 
 See [Rrule library here](https://github.com/jakubroztocil/rrule)
+
 See [differences to Rrule here](https://gist.github.com/s-taylor/f59e0cefc9c2e52d77271cebf021de01)
 
 ## What would I use this for?
