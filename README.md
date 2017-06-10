@@ -4,9 +4,10 @@
 
 ## What is this?
 
-**Time Walk** is a simple recurrance library. I was inspired to write this after having previously used **Rrule** for a work project and found **Rrule** to have it's quirks.
+**Time Walk** is a simple library for generating date recurrance rules. I was inspired to write this after having previously used **Rrule** for a work project and found **Rrule** to have it's quirks.
 
 See [Rrule library here](https://github.com/jakubroztocil/rrule)
+See [differences to Rrule here](https://gist.github.com/s-taylor/f59e0cefc9c2e52d77271cebf021de01)
 
 ## What would I use this for?
 
@@ -18,10 +19,6 @@ There are a number of potential use cases for this module, two better examples I
 ## Try it out
 
 [See runkit demo here](https://runkit.com/nizmox/time-walk-demo)
-
-## What's different from Rrule?
-
-[See differences here](https://gist.github.com/s-taylor/f59e0cefc9c2e52d77271cebf021de01)
 
 ## How do I use it?
 
