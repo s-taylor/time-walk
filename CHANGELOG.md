@@ -1,6 +1,11 @@
 # Changelog
 
 ## [Unreleased][]
+### Changed
+- Updated runkit demo link
+- Move Rrule comparison to gist
+- Add npm tags
+- Document use of `.toString` and `.parse`
 
 ## [1.0.3][] - 2017-06-09
 ### Changed
