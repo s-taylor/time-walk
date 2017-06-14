@@ -132,19 +132,14 @@ Send me a pull request! Please don't send me a pull request without tests though
 
 ## What still needs doing...
 
-* Allow setting a default output type
+* Allow setting a default output type in constructor
 * Add setter method (including setting default output type)
 * Test between from and to validations
 * Test interval is required (in constructor)
 * Limit how many occurances get returned to 100?
-* Add example code on runkit
-* Update readme with some use cases for the module
 * Document specifying output format
-* Changelog
-* finalise readme
-* publishing to npm
 
 * Add `.fromString` to create a rule with a date in string format + timezone.
-* remove use of decimals in calcs so more accurate
+* remove use of decimals in calcs so more accurate?
 * compile to ES2015
 * Use CircleCI
