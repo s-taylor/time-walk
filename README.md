@@ -96,6 +96,28 @@ const result = rule.between(from, to);
 // in Australia/Sydney Time
 ```
 
+#### Converting to a string
+
+This is useful if you want to store rules in a database.
+You may also need to store the last occurance generated via the rule, but that must be handled separately.
+
+```js
+const start = new moment.tz('2017-07-01', 'Australia/Sydney');
+const rule = new TimeWalk(start, { months: 1 });
+
+const result = rule.toString();
+// result === "START=2017-06-30T14:00:00.000Z;INTERVAL=M1;TZ=Australia/Sydney;"
+```
+
+#### Parse a rule (convert from a string)
+
+```js
+const { parse } = require('time-walk');
+
+const rule = parse("START=2017-06-30T14:00:00.000Z;INTERVAL=M1;TZ=Australia/Sydney;");
+// rule === new TimeWalk(new moment.tz('2017-07-01', 'Australia/Sydney'), { months: 1 });
+```
+
 ## Why am I doing this?
 
 At present I'm doing this purely as a personal challenge at this point, it's an interesting problem to solve but as I'm not doing this for work, and thus not spending work time on it, set expectations accordingly.
@@ -118,7 +140,6 @@ Send me a pull request! Please don't send me a pull request without tests though
 * Add example code on runkit
 * Update readme with some use cases for the module
 * Document specifying output format
-* Document toString and parsing functions
 * Changelog
 * finalise readme
 * publishing to npm
