@@ -142,4 +142,3 @@ Send me a pull request! Please don't send me a pull request without tests though
 * Add `.fromString` to create a rule with a date in string format + timezone.
 * remove use of decimals in calcs so more accurate?
 * compile to ES2015
-* Use CircleCI
