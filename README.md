@@ -1,4 +1,4 @@
-# Time Walk
+# Time Walk [![CircleCI](https://circleci.com/gh/s-taylor/time-walk.svg?style=svg)](https://circleci.com/gh/s-taylor/time-walk)
 
 ![time-walk](https://raw.githubusercontent.com/s-taylor/time-walk/master/docs/time-walk.jpg)
 
