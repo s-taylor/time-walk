@@ -2,19 +2,24 @@
   "name": "time-walk",
   "version": "1.0.4",
   "description": "a simple date recurrance rule library",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "NODE_ENV=test ava",
+    "build": "babel src -d lib",
+    "prepublish": "yarn build",
+    "test": "yarn build && NODE_ENV=test ava",
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
     "lodash": "^4.17.4",
     "moment-timezone": "^0.5.11"
   },
   "devDependencies": {
     "ava": "^0.19.1",
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
     "changelog-verify": "^1.0.4",
     "eslint": "^3.19.0",
     "eslint-config-staylor": "^1.1.0",

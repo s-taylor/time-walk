@@ -1,3 +1,4 @@
+require("babel-polyfill"); // polyfill promise support
 const _ = require('lodash');
 const moment = require('moment-timezone');
 const {

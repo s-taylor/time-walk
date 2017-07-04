@@ -1,6 +1,6 @@
 const test = require('ava');
-const { getAvgInterval, simplify } = require('../../src/helper/interval');
-const values = require('../../src/constants/values');
+const { getAvgInterval, simplify } = require('../../lib/helper/interval');
+const values = require('../../lib/constants/values');
 
 // .getAvgInterval tests
 

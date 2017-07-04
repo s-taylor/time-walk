@@ -2,7 +2,7 @@ const test = require('ava');
 const sinon = require('sinon');
 const moment = require('moment-timezone');
 const momentjs = require('moment');
-const { TimeWalk, parse } = require('../src/index');
+const { TimeWalk, parse } = require('../lib/index');
 
 /* eslint-disable new-cap */
 
